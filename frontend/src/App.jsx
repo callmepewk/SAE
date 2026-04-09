@@ -2,18 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { 
   Search, Bell, Globe, Activity, Crosshair, TrendingUp, 
   DollarSign, Zap, BarChart3, Database, ShieldCheck,
-  Loader2, Download, X, MapPin, SlidersHorizontal, Plus, ChevronDown, Check, AlertTriangle
+  Loader2, Download, X, SlidersHorizontal, Check, AlertTriangle,
+  MessageSquare, Target, Lightbulb, AlertCircle
 } from 'lucide-react';
 import { 
   AreaChart, Area, BarChart, Bar, ResponsiveContainer, Tooltip,
-  PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid
+  PieChart, Pie, Cell, XAxis, YAxis
 } from 'recharts';
 
-// --- MOCK DAS KEYWORDS (Substitui a importação do backend no frontend) ---
-const mockKeywords = {
-  tratamentos: ['Toxina Botulínica', 'Preenchimento Labial', 'Bioestimulador de Colágeno', 'Fios de PDO', 'Peeling Químico'],
-  lasers: ['Ultraformer MPT', 'Lavieen', 'Fotona', 'PicoSure', 'Soprano Titanium'],
-  anatomia: ['Terço Superior', 'Olheiras', 'Malar', 'Contorno Mandibular', 'Pescoço', 'Glúteos']
+// --- MOCK DAS KEYWORDS E SEGMENTAÇÕES (Filter Panel) ---
+const filterCategories = {
+  'Tratamentos & Procedimentos': ['Toxina Botulínica', 'Preenchimento', 'Bioestimulador', 'Fios de PDO', 'Peeling Químico'],
+  'Lasers & Tecnologias': ['Ultraformer MPT', 'Lavieen', 'Fotona', 'PicoSure', 'Soprano Titanium'],
+  'Anatomia Sniper': ['Terço Superior', 'Olheiras', 'Malar', 'Contorno Mandibular', 'Pescoço', 'Glúteos'],
+  'Perfil da Clínica': ['Estética Básica', 'Estética Avançada', 'Dermatologia', 'Clínica Premium'],
+  'Região de Atuação': ['São Paulo', 'Rio de Janeiro', 'Sul', 'Nordeste', 'Brasil (Geral)'],
+  'Público-Alvo': ['Classe A/B', 'Classe C', '25-35 anos', '35-50 anos', 'Feminino', 'Masculino'],
+  'Objetivo Estratégico': ['Aumentar Faturamento', 'Lançar Procedimento', 'Encontrar Oportunidade', 'Dominar Concorrência'],
+  'Ticket Médio Alvo': ['Até R$ 1.000', 'R$ 1.000 a R$ 3.000', 'Acima de R$ 3.000']
 };
 
 // --- DADOS DO MOTOR FIXO (Métricas Reais RABI OMNI) ---
@@ -41,11 +47,7 @@ const DAILY_LIMIT = 5;
 const checkDailyLimit = () => {
   const today = new Date().toDateString();
   const usage = JSON.parse(localStorage.getItem('sae_usage')) || { date: today, count: 0 };
-  
-  if (usage.date !== today) {
-    usage.count = 0;
-    usage.date = today;
-  }
+  if (usage.date !== today) { usage.count = 0; usage.date = today; }
   return usage;
 };
 
@@ -54,44 +56,65 @@ const incrementUsage = (usage) => {
   localStorage.setItem('sae_usage', JSON.stringify(usage));
 };
 
-// --- COMPONENTE: PAINEL DE FILTROS ---
-const FilterPanel = ({ isOpen, selectedFilters, toggleFilter }) => {
+// --- COMPONENTE: SMART FORM PANEL ---
+const SmartFilterPanel = ({ isOpen, selectedFilters, toggleFilter, onSearch, isSearching }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-14 right-0 w-96 bg-[#0b1121]/95 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-[0_10px_40px_rgba(0,0,0,0.5)] z-50 animate-fade-in">
-      <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Refino Estratégico</h3>
+    <div className="absolute top-14 right-0 w-[600px] bg-[#0b1121]/95 backdrop-blur-2xl border border-white/10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.7)] z-50 animate-fade-in flex flex-col max-h-[80vh]">
+      <div className="p-5 border-b border-white/5">
+        <h3 className="text-sm font-bold text-cyan-400 uppercase tracking-widest flex items-center">
+          <SlidersHorizontal size={16} className="mr-2" /> Parametrização Tática
+        </h3>
+        <p className="text-xs text-gray-400 mt-1">Selecione os vetores para guiar a inteligência do consultor.</p>
+      </div>
       
-      {Object.entries(mockKeywords).map(([category, items]) => (
-        <div key={category} className="mb-4">
-          <p className="text-xs text-cyan-500 font-bold uppercase mb-2">{category}</p>
-          <div className="flex flex-wrap gap-2">
-            {items.map(item => {
-              const isSelected = selectedFilters.includes(item);
-              return (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => toggleFilter(item)}
-                  className={`text-xs px-3 py-1.5 rounded-full transition-all flex items-center space-x-1 border ${
-                    isSelected 
-                      ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300' 
-                      : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10'
-                  }`}
-                >
-                  <span>{item}</span>
-                  {isSelected && <Check size={12} />}
-                </button>
-              );
-            })}
+      <div className="p-5 overflow-y-auto custom-scrollbar flex-1 space-y-6">
+        {Object.entries(filterCategories).map(([category, items]) => (
+          <div key={category}>
+            <p className="text-xs text-gray-500 font-bold uppercase mb-3 tracking-wider">{category}</p>
+            <div className="flex flex-wrap gap-2">
+              {items.map(item => {
+                const isSelected = selectedFilters.includes(item);
+                return (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => toggleFilter(item)}
+                    className={`text-xs px-3 py-1.5 rounded-full transition-all flex items-center space-x-1 border ${
+                      isSelected 
+                        ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.2)]' 
+                        : 'bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:text-gray-200'
+                    }`}
+                  >
+                    <span>{item}</span>
+                    {isSelected && <Check size={12} />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      <div className="p-5 border-t border-white/5 bg-black/20 rounded-b-xl flex justify-between items-center">
+        <span className="text-xs font-mono text-gray-500">
+          {selectedFilters.length} vetores selecionados
+        </span>
+        <button 
+          onClick={onSearch}
+          disabled={isSearching || selectedFilters.length === 0}
+          className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-6 rounded-lg text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+        >
+          {isSearching ? <Loader2 size={16} className="animate-spin mr-2" /> : <Activity size={16} className="mr-2" />}
+          GERAR ANÁLISE ESTRATÉGICA
+        </button>
+      </div>
     </div>
   );
 };
 
-// --- COMPONENTE: DASHBOARD DE RELATÓRIO (PDF READY & RESPONSIVO) ---
+// --- COMPONENTE: DASHBOARD DE RELATÓRIO CONSULTIVO ---
 const ReportDashboard = ({ data, onClose, onNewSearch }) => {
   if (!data) return null;
 
@@ -99,117 +122,152 @@ const ReportDashboard = ({ data, onClose, onNewSearch }) => {
     <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex justify-center overflow-y-auto">
       <div className="w-full max-w-7xl min-h-screen bg-[#030712] relative animate-fade-in print:bg-white print:text-black">
         
-        {/* Sticky Header do Relatório */}
+        {/* Sticky Header */}
         <div className="sticky top-0 z-50 bg-[#030712]/90 backdrop-blur-md border-b border-white/5 p-6 flex justify-between items-center print:hidden">
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center border border-cyan-500/20">
-              <Activity className="text-cyan-400" size={24} />
+              <ShieldCheck className="text-cyan-400" size={24} />
             </div>
             <div>
-              <h2 className="text-2xl font-black tracking-tight">Dossiê: {data.keyword.toUpperCase()}</h2>
+              <h2 className="text-2xl font-black tracking-tight">Dossiê Estratégico: {data.keyword.toUpperCase()}</h2>
               <div className="flex space-x-3 text-sm font-mono text-gray-500 mt-1">
-                <span>CAT: {data.category}</span>
+                <span>SEGMENTO: {data.category}</span>
                 <span>•</span>
                 <span>GEO: {data.region}</span>
               </div>
             </div>
           </div>
           <div className="flex space-x-3">
-            <button onClick={onNewSearch} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 rounded-lg text-sm font-bold transition-colors">
-              Nova Pesquisa
-            </button>
+            <button onClick={onNewSearch} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 rounded-lg text-sm font-bold transition-colors">Nova Pesquisa</button>
             <button onClick={() => window.print()} className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-bold transition-colors flex items-center space-x-2">
               <Download size={16} /> <span>Exportar PDF</span>
             </button>
-            <button onClick={onClose} className="p-2 bg-white/5 hover:bg-red-500/20 hover:text-red-400 rounded-lg text-gray-400 transition-colors">
-              <X size={20} />
-            </button>
+            <button onClick={onClose} className="p-2 bg-white/5 hover:bg-red-500/20 hover:text-red-400 rounded-lg text-gray-400 transition-colors"><X size={20} /></button>
           </div>
         </div>
 
         <div className="p-8 max-w-6xl mx-auto space-y-10 pb-32">
           
-          {/* 1. Visão Estratégica */}
-          <section>
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center"><Globe className="mr-2 text-cyan-400" size={20}/> Resumo Executivo</h3>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-2">Volume Total</p>
-                <p className="text-4xl font-black text-white">{data.metrics.volume.toLocaleString('pt-BR')}</p>
+          {/* 1. VISÃO ESTRATÉGICA DO CONSULTOR (NARRATIVA) */}
+          <section className="bg-gradient-to-br from-indigo-900/10 to-cyan-900/5 border border-indigo-500/20 rounded-2xl p-8 relative overflow-hidden print:border-gray-300 print:bg-gray-50">
+            <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500" />
+            <h3 className="text-xl font-black text-white mb-6 flex items-center tracking-tight print:text-black">
+              <MessageSquare className="mr-3 text-indigo-400" size={24}/> Visão do Especialista
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-2 flex items-center"><Target size={14} className="mr-2"/> Leitura de Mercado</h4>
+                <p className="text-gray-300 leading-relaxed text-sm print:text-gray-800">{data.narrative.intro}</p>
               </div>
-              <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-2">Evolução</p>
-                <p className={`text-4xl font-black ${data.metrics.growth > 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {data.metrics.growth > 0 ? '+' : ''}{data.metrics.growth}%
+              <div>
+                <h4 className="text-sm font-bold text-cyan-400 uppercase tracking-widest mb-2 flex items-center"><Lightbulb size={14} className="mr-2"/> Interpretação Estratégica</h4>
+                <p className="text-gray-300 leading-relaxed text-sm print:text-gray-800">{data.narrative.interpretation}</p>
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-green-400 uppercase tracking-widest mb-2 flex items-center"><TrendingUp size={14} className="mr-2"/> Posicionamento Recomendado</h4>
+                <p className="text-gray-300 leading-relaxed text-sm print:text-gray-800">{data.narrative.positioning}</p>
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-red-400 uppercase tracking-widest mb-2 flex items-center"><AlertCircle size={14} className="mr-2"/> Riscos Identificados</h4>
+                <p className="text-gray-300 leading-relaxed text-sm print:text-gray-800">{data.narrative.risks}</p>
+              </div>
+            </div>
+          </section>
+
+          {/* 2. LEITURA DE DADOS (MÉTRICAS EXPLICADAS) */}
+          <section>
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center print:text-black"><Activity className="mr-2 text-cyan-400" size={20}/> Termômetro de Demanda</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-[#0b1121] p-6 rounded-2xl border border-white/5 print:border-gray-200">
+                <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-2">Volume de Busca</p>
+                <p className="text-4xl font-black text-white print:text-black mb-3">{data.metrics.volume.toLocaleString('pt-BR')}</p>
+                <p className="text-xs text-gray-400 leading-relaxed border-t border-white/10 pt-3 print:text-gray-600 print:border-gray-200">
+                  <strong className="text-cyan-400 print:text-cyan-600">O que significa:</strong> {data.metrics.volumeText}
                 </p>
               </div>
-              <div className="bg-white/5 p-6 rounded-2xl border border-white/5">
-                <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-2">Concorrência</p>
-                <p className="text-4xl font-black text-indigo-400">{data.metrics.competition}/100</p>
+              <div className="bg-[#0b1121] p-6 rounded-2xl border border-white/5 print:border-gray-200">
+                <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-2">Crescimento (90d)</p>
+                <p className={`text-4xl font-black mb-3 ${data.metrics.growth > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {data.metrics.growth > 0 ? '+' : ''}{data.metrics.growth}%
+                </p>
+                <p className="text-xs text-gray-400 leading-relaxed border-t border-white/10 pt-3 print:text-gray-600 print:border-gray-200">
+                  <strong className="text-green-400 print:text-green-600">O que indica:</strong> {data.metrics.growthText}
+                </p>
               </div>
-              <div className="bg-gradient-to-br from-cyan-900/20 to-transparent p-6 rounded-2xl border border-cyan-500/30">
-                <p className="text-xs text-cyan-500 uppercase font-bold tracking-widest mb-2">Oportunidade OMNI</p>
-                <p className="text-xl font-bold text-white leading-tight">Vácuo de mercado identificado em clínicas padrão.</p>
-              </div>
-            </div>
-          </section>
-
-          {/* 2. Dados Financeiros */}
-          <section>
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center"><DollarSign className="mr-2 text-green-400" size={20}/> Viabilidade Financeira Estimada</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-[#0b1121] border border-green-500/20 p-6 rounded-2xl">
-                <p className="text-sm text-gray-400 mb-1">Custo Médio (Insumo/Sessão)</p>
-                <p className="text-3xl font-black text-gray-200">R$ {data.financials.avgCost.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-              </div>
-              <div className="bg-[#0b1121] border border-green-500/20 p-6 rounded-2xl">
-                <p className="text-sm text-gray-400 mb-1">Ticket Médio Cobrado</p>
-                <p className="text-3xl font-black text-white">R$ {data.financials.avgPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
-              </div>
-              <div className="bg-green-500/10 border border-green-500/30 p-6 rounded-2xl">
-                <p className="text-sm text-green-500 font-bold uppercase tracking-widest mb-1">ROI Potencial Bruto</p>
-                <p className="text-4xl font-black text-green-400">{data.financials.roi}%</p>
+              <div className="bg-[#0b1121] p-6 rounded-2xl border border-white/5 print:border-gray-200">
+                <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mb-2">Concorrência Direta</p>
+                <p className="text-4xl font-black text-indigo-400 mb-3">{data.metrics.competition}/100</p>
+                <p className="text-xs text-gray-400 leading-relaxed border-t border-white/10 pt-3 print:text-gray-600 print:border-gray-200">
+                  <strong className="text-indigo-400 print:text-indigo-600">Interpretação:</strong> {data.metrics.compText}
+                </p>
               </div>
             </div>
           </section>
 
-          {/* 3 & 4. Insumos e Tecnologias */}
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white/5 border border-white/5 rounded-2xl p-6">
-              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 flex items-center"><Database className="mr-2 text-indigo-400" size={16}/> Produtos & Insumos Relacionados</h3>
-              <ul className="space-y-3">
-                {data.inputs.map((input, idx) => (
-                  <li key={idx} className="flex items-center space-x-3 bg-black/30 p-3 rounded-lg border border-white/5">
-                    <div className="w-2 h-2 rounded-full bg-indigo-500" />
-                    <span className="text-gray-300 font-medium">{input}</span>
-                  </li>
-                ))}
-              </ul>
+          {/* 3. FINANCEIRO & PRODUTOS (COMBINADO) */}
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-6 print:border-gray-200 print:bg-transparent">
+              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 flex items-center print:text-gray-600">
+                <DollarSign className="mr-2 text-green-400" size={16}/> Engenharia Financeira Estimada
+              </h3>
+              
+              <div className="flex justify-between items-end mb-6 pb-6 border-b border-white/5 print:border-gray-200">
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Custo Médio (Insumos)</p>
+                  <p className="text-2xl font-black text-gray-300 print:text-gray-800">R$ {data.financials.avgCost.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm text-gray-500 mb-1">Ticket Médio Cobrado</p>
+                  <p className="text-2xl font-black text-white print:text-black">R$ {data.financials.avgPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</p>
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div className="flex justify-between items-center mb-2">
+                  <p className="text-sm text-green-500 font-bold uppercase tracking-widest">ROI Potencial Bruto</p>
+                  <p className="text-3xl font-black text-green-400">{data.financials.roi}%</p>
+                </div>
+                <p className="text-sm text-gray-400 italic bg-black/20 p-3 rounded-lg print:text-gray-600 print:bg-gray-50">
+                  "{data.financials.analysis}"
+                </p>
+              </div>
             </div>
-            
-            <div className="bg-white/5 border border-white/5 rounded-2xl p-6">
-              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 flex items-center"><Zap className="mr-2 text-yellow-400" size={16}/> Tecnologias & Lasers Associados</h3>
+
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-6 print:border-gray-200 print:bg-transparent">
+              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6 flex items-center print:text-gray-600">
+                <Database className="mr-2 text-indigo-400" size={16}/> Arsenal Recomendado (Insumos & Lasers)
+              </h3>
               <div className="space-y-4">
-                {data.technologies.map((tech, idx) => (
-                  <div key={idx} className="flex justify-between items-center bg-black/30 p-4 rounded-lg border border-white/5">
-                    <div>
-                      <p className="font-bold text-gray-200">{tech.name}</p>
-                      <p className="text-xs text-gray-500 uppercase mt-1">{tech.origin}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-gray-400">Custo Ref.</p>
-                      <p className="font-mono text-cyan-400">R$ {tech.sessionCost}</p>
-                    </div>
-                  </div>
-                ))}
+                <div>
+                  <p className="text-xs text-indigo-400 font-bold uppercase mb-2">Principais Insumos</p>
+                  <ul className="space-y-2">
+                    {data.inputs.map((input, idx) => (
+                      <li key={idx} className="flex items-center space-x-2 text-sm text-gray-300 print:text-gray-700">
+                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" /><span>{input}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="pt-4 border-t border-white/5 print:border-gray-200">
+                  <p className="text-xs text-yellow-400 font-bold uppercase mb-2">Tecnologias Associadas</p>
+                  <ul className="space-y-2">
+                    {data.technologies.map((tech, idx) => (
+                      <li key={idx} className="flex justify-between items-center text-sm bg-black/20 px-3 py-2 rounded-lg print:bg-gray-50">
+                        <span className="font-bold text-gray-200 print:text-gray-800">{tech.name} <span className="text-xs text-gray-500 font-normal ml-1">({tech.origin})</span></span>
+                        <span className="font-mono text-cyan-400">Ref: R$ {tech.sessionCost}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </section>
 
-          {/* 5. Gráficos */}
+          {/* 4. VISUALIZAÇÃO GRÁFICA */}
           <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[350px]">
-             <div className="bg-[#0b1121] border border-white/5 p-6 rounded-2xl flex flex-col">
-              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Volume de Buscas (Últimos 6 meses)</h3>
+             <div className="bg-[#0b1121] border border-white/5 p-6 rounded-2xl flex flex-col print:border-gray-200 print:bg-transparent">
+              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4 print:text-gray-600">Evolução da Demanda OMNI</h3>
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={data.charts.timeline}>
                   <defs>
@@ -223,16 +281,17 @@ const ReportDashboard = ({ data, onClose, onNewSearch }) => {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-            
-            <div className="bg-[#0b1121] border border-white/5 p-6 rounded-2xl flex flex-col">
-              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Demanda por Procedimento Derivado</h3>
+            <div className="bg-[#0b1121] border border-white/5 p-6 rounded-2xl flex flex-col print:border-gray-200 print:bg-transparent">
+              <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4 print:text-gray-600">Distribuição Regional Primária</h3>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data.charts.procedures} layout="vertical" margin={{ left: 40 }}>
-                  <XAxis type="number" hide />
-                  <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fill: '#9ca3af', fontSize: 12}} />
-                  <Tooltip cursor={{fill: 'rgba(255,255,255,0.05)'}} contentStyle={{ backgroundColor: '#030712', borderColor: '#1f2937' }} />
-                  <Bar dataKey="valor" fill="#4f46e5" radius={[0, 4, 4, 0]} barSize={20} />
-                </BarChart>
+                <PieChart>
+                  <Pie data={data.market.topRegionsData} innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="valor">
+                    {data.market.topRegionsData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{ backgroundColor: '#111827', borderColor: '#1f2937' }} />
+                </PieChart>
               </ResponsiveContainer>
             </div>
           </section>
@@ -254,8 +313,7 @@ const Navbar = ({ isScrolled, searchQuery, setSearchQuery, handleSearch, isSearc
     );
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     handleSearch(searchQuery, selectedFilters);
     setShowFilters(false);
   };
@@ -271,26 +329,16 @@ const Navbar = ({ isScrolled, searchQuery, setSearchQuery, handleSearch, isSearc
       </div>
       
       <div className="flex items-center space-x-6">
-        {/* BARRA DE BUSCA + FILTROS */}
         <div className="relative flex items-center">
-          <form onSubmit={onSubmit} className="relative z-50 flex items-center">
-            <div className="relative">
-              <input 
-                type="text" 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Busca tática ou segmento..." 
-                className="bg-white/5 border border-white/10 rounded-l-full py-2 pl-5 pr-10 text-sm focus:outline-none focus:border-cyan-500 w-72 transition-all focus:w-96 placeholder:text-gray-600 text-white"
-                disabled={isSearching}
-              />
-              <button 
-                type="submit" 
-                disabled={isSearching || (!searchQuery.trim() && selectedFilters.length === 0)}
-                className="absolute right-3 top-2.5 text-gray-400 hover:text-cyan-400 transition-colors disabled:opacity-50"
-              >
-                {isSearching ? <Loader2 size={16} className="animate-spin text-cyan-400" /> : <Search size={16} />}
-              </button>
-            </div>
+          <div className="relative z-50 flex items-center">
+            <input 
+              type="text" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Digite um alvo tático livre..." 
+              className="bg-white/5 border border-white/10 rounded-l-full py-2 pl-5 pr-10 text-sm focus:outline-none focus:border-cyan-500 w-64 transition-all focus:w-80 placeholder:text-gray-600 text-white"
+              disabled={isSearching}
+            />
             <button 
               type="button"
               onClick={() => setShowFilters(!showFilters)}
@@ -301,22 +349,20 @@ const Navbar = ({ isScrolled, searchQuery, setSearchQuery, handleSearch, isSearc
               }`}
             >
               <SlidersHorizontal size={16} />
-              {selectedFilters.length > 0 && <span className="bg-cyan-400 text-black text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center">{selectedFilters.length}</span>}
+              <span className="font-bold">Filtros</span>
+              {selectedFilters.length > 0 && <span className="bg-cyan-400 text-black text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center ml-1">{selectedFilters.length}</span>}
             </button>
-          </form>
+          </div>
           
-          <FilterPanel isOpen={showFilters} selectedFilters={selectedFilters} toggleFilter={toggleFilter} />
+          <SmartFilterPanel isOpen={showFilters} selectedFilters={selectedFilters} toggleFilter={toggleFilter} onSearch={onSubmit} isSearching={isSearching} />
         </div>
 
-        {/* STATUS DIÁRIO */}
         <div className="hidden lg:flex items-center space-x-2 text-xs font-mono bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-gray-400">
           <Activity size={14} className={usageInfo.count >= DAILY_LIMIT ? 'text-red-400' : 'text-green-400'}/>
           <span>{usageInfo.count}/{DAILY_LIMIT} Consultas</span>
         </div>
 
-        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-          OP
-        </div>
+        <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-[0_0_15px_rgba(6,182,212,0.4)]">OP</div>
       </div>
     </nav>
   );
@@ -329,7 +375,6 @@ export default function App() {
   const [liveData, setLiveData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Estados do Motor e Limite Diário
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [reportData, setReportData] = useState(null);
@@ -338,7 +383,6 @@ export default function App() {
 
   useEffect(() => {
     setUsageInfo(checkDailyLimit());
-    
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
 
@@ -348,21 +392,19 @@ export default function App() {
         const data = await response.json();
         setLiveData(data);
         setIsLoading(false);
-      } catch (error) {
-        console.error("Motor Backend Offline", error);
+} catch (error) {
+        console.error("Alerta de conexão com o Motor:", error);
         setIsLoading(false);
       }
     };
-
     fetchInteligencia();
     const interval = setInterval(fetchInteligencia, 10000); 
 
     return () => { window.removeEventListener('scroll', handleScroll); clearInterval(interval); };
   }, []);
 
-  // --- 🎯 CORE: HANDLE SEARCH E SCHEMA DO BOT ---
+  // --- 🎯 CORE: HANDLE SEARCH E SCHEMA DO BOT CONSULTIVO ---
   const handleSearch = async (query, filters) => {
-    // 1. Validação de Limite
     const currentUsage = checkDailyLimit();
     if (currentUsage.count >= DAILY_LIMIT) {
       setShowLimitAlert(true);
@@ -373,34 +415,47 @@ export default function App() {
     setShowLimitAlert(false);
 
     try {
-      // 2. Mock do tempo de resposta do Bot/Motor
-      await new Promise(resolve => setTimeout(resolve, 2500));
+      // Mock do tempo de processamento do Bot
+      await new Promise(resolve => setTimeout(resolve, 3000));
       
-      // 3. O SCHEMA DE DADOS DINÂMICOS (BOT TARGET)
-      const keywordTarget = query || filters[0] || 'Análise Geral';
+      const keywordTarget = query || filters.join(' + ') || 'Análise de Mercado Ampla';
+      
+      // O SCHEMA DE DADOS DINÂMICOS CONSULTIVOS
       const mockDynamicSchema = {
-        category: filters.length > 0 ? "Filtro Composto" : "Busca Direta",
+        category: filters.length > 0 ? "Análise Multi-Filtro" : "Busca Direta Livre",
         keyword: keywordTarget,
-        region: "Brasil (Nacional)",
+        region: filters.find(f => filterCategories['Região de Atuação'].includes(f)) || "Brasil (Nacional)",
+        narrative: {
+          intro: `Ao processar os dados para "${keywordTarget}", identificamos um padrão comportamental forte na base consumidora. Há uma latência de desejo reprimido que as clínicas padrão não estão atendendo.`,
+          interpretation: "Isso indica que o mercado não está buscando preço, mas sim 'segurança percebida'. A alta demanda somada à barreira de entrada moderada sugere uma janela de oportunidade iminente.",
+          positioning: "Do ponto de vista estratégico, a recomendação é distanciar-se da guerra de preços. Embale este procedimento como uma 'solução premium' com foco no resultado anatômico, não no insumo.",
+          risks: "O principal risco é o 'Efeito Comoditização'. Clínicas adjacentes estão começando a oferecer isso como isca de baixo custo. A diferenciação no atendimento é obrigatória."
+        },
         metrics: {
           volume: Math.floor(Math.random() * 80000) + 15000,
-          growth: parseFloat((Math.random() * 250 - 30).toFixed(1)), // -30 a 220
-          competition: Math.floor(Math.random() * 40) + 60, // 60 a 100
+          volumeText: "Este volume reflete uma demanda consistente e em fase de expansão. O paciente já sabe o que quer.",
+          growth: parseFloat((Math.random() * 250 - 30).toFixed(1)),
+          growthText: "Demonstra um aquecimento recente do mercado. Modismos caem rápido, mas esta inclinação sugere tendência duradoura.",
+          competition: Math.floor(Math.random() * 40) + 60,
+          compText: "Barreira de entrada moderada-alta. O tráfego pago nesta área exige criativos extremamente qualificados."
         },
         financials: {
-          avgCost: Math.floor(Math.random() * 300) + 50,
-          avgPrice: Math.floor(Math.random() * 1500) + 400,
-          get roi() { return Math.floor(((this.avgPrice - this.avgCost) / this.avgCost) * 100) }
+          avgCost: Math.floor(Math.random() * 300) + 150,
+          avgPrice: Math.floor(Math.random() * 1500) + 800,
+          get roi() { return Math.floor(((this.avgPrice - this.avgCost) / this.avgCost) * 100) },
+          analysis: "A margem operacional permite absorver um CAC (Custo de Aquisição) mais alto. Invista agressivamente no topo de funil."
         },
-        inputs: ["Ácido Hialurônico (Média Densidade)", "Fios de Sustentação Lisa", "Soro Fisiológico (Diluição)", "Anestésico Tópico 7%"],
+        inputs: ["Ácido Hialurônico (Alta Viscoelasticidade)", "Bioestimulador PLLA", "Cânulas 22G", "Anestésico Tópico Composto"],
         technologies: [
-          { name: "Ultraformer MPT", origin: "Internacional (KR)", sessionCost: 1500 },
-          { name: "Lavieen Thulium", origin: "Internacional (KR)", sessionCost: 800 }
+          { name: "Ultraformer MPT", origin: "Nacionalizado", sessionCost: 1800 },
+          { name: "Lavieen Thulium", origin: "Internacional", sessionCost: 900 }
         ],
         market: {
-          topRegions: ["SP Capital", "RJ Zona Sul", "Campinas"],
           saturation: "Média-Alta",
-          opportunities: ["Pacientes masculinos (Crescimento de 40% na intenção)"]
+          topRegionsData: [
+            { name: 'São Paulo (Capital)', valor: 45 }, { name: 'RJ (Zona Sul)', valor: 25 },
+            { name: 'Campinas / Interior', valor: 15 }, { name: 'Outras', valor: 15 }
+          ]
         },
         charts: {
           timeline: Array.from({length: 6}, (_, i) => ({ mes: `M${i+1}`, valor: Math.floor(Math.random() * 100) + 20 })),
@@ -411,13 +466,12 @@ export default function App() {
         }
       };
 
-      // 4. Incrementa uso e exibe relatório
       incrementUsage(currentUsage);
       setUsageInfo(currentUsage);
       setReportData(mockDynamicSchema);
 
     } catch (error) {
-      console.error("Falha ao acionar motor RABI:", error);
+      console.error("Falha RABI:", error);
     } finally {
       setIsSearching(false);
     }
@@ -426,15 +480,13 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#030712] text-white font-sans selection:bg-cyan-500/30 pb-20">
       
-      {/* OVERLAYS */}
       {reportData && <ReportDashboard data={reportData} onClose={() => setReportData(null)} onNewSearch={() => { setReportData(null); setSearchQuery(''); }} />}
       
-      {/* ALERTA DE LIMITE DIÁRIO */}
       {showLimitAlert && (
         <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-red-500/10 border border-red-500/50 backdrop-blur-md px-6 py-4 rounded-xl flex items-center space-x-4 animate-fade-in shadow-[0_0_30px_rgba(239,68,68,0.2)]">
           <AlertTriangle className="text-red-400" size={24} />
           <div>
-            <p className="font-bold text-red-100">Limite de Consultas Atingido</p>
+            <p className="font-bold text-red-100">Limite de Consultoria Atingido</p>
             <p className="text-sm text-red-200/70">O limite de {DAILY_LIMIT} análises do plano atual foi excedido. Retorne amanhã ou faça o upgrade.</p>
           </div>
           <button onClick={() => setShowLimitAlert(false)} className="ml-4 p-1 hover:bg-white/10 rounded"><X size={16} className="text-red-300"/></button>
@@ -489,7 +541,6 @@ export default function App() {
         </section>
       </main>
 
-      {/* FOOTER Corrigido e Unificado */}
       <footer className="fixed bottom-0 w-full bg-[#030712]/90 backdrop-blur-md border-t border-white/5 py-4 px-10 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 font-mono z-40 gap-4">
         <div className="flex items-center space-x-8">
           <span className="flex items-center space-x-2">
@@ -512,7 +563,7 @@ export default function App() {
   );
 }
 
-// --- Funções Auxiliares dos Componentes Visuais (Mantidas) ---
+// --- Funções Auxiliares dos Componentes Visuais (Mantidas Absolutamente) ---
 const DashboardHeader = () => (
   <header className="relative pt-40 pb-16 px-10 border-b border-white/5 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-[#030712] to-[#030712]">
     <div className="max-w-7xl mx-auto">
