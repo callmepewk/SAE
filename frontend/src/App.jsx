@@ -196,7 +196,7 @@ export default function App() {
     // Conexão com o Servidor Node.js
     const fetchInteligencia = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/radar');
+        const response = await fetch('https://sae-9wqa.onrender.com/api/radar');
         const data = await response.json();
         setLiveData(data);
         setIsLoading(false);
@@ -264,16 +264,22 @@ export default function App() {
 
       </main>
 
-      {/* FOOTER Estilo Terminal */}
+{/* FOOTER Estilo Terminal */}
       <footer className="fixed bottom-0 w-full bg-[#030712]/90 backdrop-blur-md border-t border-white/5 py-4 px-10 flex justify-between items-center text-sm text-gray-500 font-mono z-50">
         <div className="flex items-center space-x-8">
           <span className="flex items-center space-x-2">
             <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_#06b6d4]"/> 
-            <span className="text-cyan-400 font-bold">API CONECTADA (localhost:3000)</span>
+            <span className="text-cyan-400 font-bold">API CONECTADA (RENDER CLOUD)</span>
           </span>
-          <span>CENÁRIOS GERADOS: 252.841</span>
+          <span>CENÁRIOS: 252.841</span>
           <span>LATÊNCIA: 14ms</span>
         </div>
+
+<div className="flex space-x-6 text-xs font-sans tracking-widest uppercase">
+          <a href="https://instagram.com/callmepewk" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors">CTO: @callmepewk</a>
+          <a href="https://instagram.com/aidoctorbr" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-cyan-400 transition-colors">@aidoctorbr</a>
+        </div>
+
         <div>
           SAE OMNI INTELLIGENCE CORE © 2026
         </div>
