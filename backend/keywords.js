@@ -32,59 +32,114 @@ procedimentos_pt: {
     'preenchimento de glúteos': ['bioplastia de bumbum', 'volume glúteo injetável'],
     'bioestimulador de glúteos': ['sculptra glúteo', 'radiesse glúteo', 'bumbum up'],
 
-    // --- ⚡ LASERS E DISPOSITIVOS DE ENERGIA (EBDs) ---
-    'laser co2 fracionado': ['laser co2', 'co2 fracionado', 'dual deep', 'resurfacing co2'],
-    'laser erbium yag': ['fotona 4d', 'erbium 2940', 'pixel co2', 'resurfacing ablativo'],
-    'laser erbium glass': ['fraxel', 'resurfx', 'laser 1550nm', 'laser não ablativo'],
-    'laser thulium': ['lavieen', 'bb laser', 'lasemd', 'laser de lavagem', 'pele de porcelana'],
-    'laser picossegundos': ['picosure', 'picoway', 'discovery pico', 'laser picossegundos'],
-    'laser q-switched': ['acroma', 'spectra', 'vektra', 'hollywood peel', 'black peel'],
-    'laser nd yag': ['nd yag 1064nm', 'zye vascular', 'laser para telangiectasia'],
-    'laser vascular vbeam': ['vbeam perfecta', 'dye laser', 'laser para rosácea'],
-    'laser ktp': ['laser 532nm', 'laser para manchas vasculares'],
-    'laser alexandrite': ['depilação alexandrite', 'gentlelase'],
-    'laser de diodo': ['depilação a laser diodo', 'lightsheer', 'soprano titanium'],
-    'laser rubi': ['laser 694nm', 'remoção de tatuagem rubi'],
-    'luz intensa pulsada': ['ipl', 'luz pulsada', 'lumecca', 'bbl hero', 'etherea ipl'],
-    'ultrassom microfocado': ['ultraformer', 'ultherapy', 'liftera', 'hifu', 'accutyte'],
-    'ultrassom macrofocado': ['scizer', 'clatuu', 'liposonix', 'quebra de gordura por ultrassom'],
-    'radiofrequência microagulhada': ['morpheus8', 'potenza', 'agnis', 'scarlet rf', 'secret rf'],
-    'radiofrequência convencional': ['hertix', 'freeze', 'vênus legacy', 'accent prime'],
-    'radiofrequência fracionada': ['fraxx', 'wavetronic', 'ebrium glass'],
-    'criolipólise de sucção': ['coolsculpting', 'congelamento de gordura'],
-    'criolipólise de placas': ['criodermis', 'asgard vc10'],
-    'ondas de choque': ['thork', 'x-wave', 'ondas acústicas para celulite'],
-    'campo eletromagnético': ['emsculpt neo', 'cmslim', 'estimulação muscular'],
-    'jato de plasma': ['plasma pen', 'eletrocautério estético', 'plasma fibroblast'],
+
+// --- ⚡ LASERS E DISPOSITIVOS DE ENERGIA (EBDs) GLOBAL DOMINATION ---
+    
+    // 🔴 ABLATIVOS E CORTANTES
+    'laser co2 fracionado': ['laser co2', 'co2 fracionado', 'dual deep', 'resurfacing co2', 'acupulse', 'ultrapulse', 'smartxide', 'smartxide dot', 'eco2', 'fraxis', 'edge one', 'dermal optical thermolysis', 'laser 10600nm', 'fraxel repair', 'cortex', 'pixel co2'],
+    'laser erbium yag': ['fotona 4d', 'erbium 2940', 'resurfacing ablativo', 'dermablate', 'mcl31', 'action ii', 'contour trl', 'juliet', 'burane', 'etherea dualmode', 'profrac', 'laser 2940nm'],
+    
+    // 🟡 NÃO ABLATIVOS E FRACIONADOS
+    'laser erbium glass': ['fraxel', 'resurfx', 'laser 1550nm', 'laser não ablativo', 'sellas 1550', 'mosaic', 'frax 1550', 'lux1540', 'palomar 1540'],
+    'laser nd yap': ['prodeep', 'laser 1340nm', 'etherea 1340', 'rejuvenescimento capilar 1340'],
+    'laser thulium': ['lavieen', 'bb laser', 'lasemd', 'lasemd ultra', 'laser de lavagem', 'pele de porcelana', 'moxi', 'fraxel dual 1927', 'frax 1940', 'laser 1927nm', 'laser de tulio', 'thulium laser'],
+    
+    // 💥 PICOSSEGUNDOS (PICO)
+    'laser picossegundos': ['picosure', 'picoway', 'discovery pico', 'laser picossegundos', 'pico laser', 'picoplus', 'picocare', 'starwalker pqx', 'pico genesis', 'enlighten', 'pico clear', 'picosure pro'],
+    
+    // 🖤 Q-SWITCHED (NANOSSEGUNDOS)
+    'laser q-switched': ['acroma', 'spectra', 'vektra', 'hollywood peel', 'black peel', 'medlite c6', 'revlite si', 'starwalker maqx', 'pastelle', 'helios iii', 'lucid q-ptp', 'laser toning', 'spectra xt', 'hollywood spectra', 'q-switched nd yag'],
+    
+    // 🩸 VASCULAR E DEPILAÇÃO (LONG PULSE & COLORIDOS)
+    'laser nd yag': ['nd yag 1064nm', 'zye vascular', 'laser para telangiectasia', 'excel v', 'gentleyag', 'aerolase neo', 'clarity ii', 'fotona nd yag', 'nd yag pulso longo', 'genesis laser'],
+    'laser vascular vbeam': ['vbeam perfecta', 'vbeam prima', 'dye laser', 'laser para rosácea', 'pulsed dye laser', 'pdl', 'cynergy'],
+    'laser ktp e amarelo': ['laser 532nm', 'laser 577nm', 'laser para manchas vasculares', 'quadrostar proyellow', 'dermav', 'advatx', 'laser amarelo', 'excel v ktp'],
+    'laser alexandrite': ['depilação alexandrite', 'gentlelase', 'apogee', 'clarity alexandrite', 'splendor x', 'motus ax', 'elite iq', 'epicarea', 'laser 755nm'],
+    'laser de diodo': ['depilação a laser diodo', 'lightsheer', 'lightsheer duet', 'lightsheer desire', 'soprano titanium', 'soprano ice', 'soprano platinum', 'vectus', 'milesman', 'mediostar', 'crystal 3d', 'galaxy fiber'],
+    'laser rubi': ['laser 694nm', 'remoção de tatuagem rubi', 'sinon', 'tatoostar', 'ruby star', 'q-clear'],
+    
+    // 🌈 LUZ INTENSA PULSADA (BBL / IPL)
+    'luz intensa pulsada': ['ipl', 'luz pulsada', 'lumecca', 'bbl hero', 'etherea ipl', 'm22', 'stellar m22', 'nordlys', 'icon ipl', 'venus versa', 'lyra ipl', 'maxg', 'broadband light', 'limelight'],
+    
+    // 🔊 ULTRASSOM (HIFU / SUPERB)
+    'ultrassom microfocado': ['ultraformer', 'ultraformer 3', 'ultraformer iii', 'ultraformer mpt', 'ultherapy', 'liftera', 'hifu', 'accutyte', 'doublo', 'utims', 'v-max', 'hipro', 'sofwave', 'superb technology'],
+    'ultrassom macrofocado': ['scizer', 'liposonix', 'quebra de gordura por ultrassom', 'ultrafocus', 'hifu corporal'],
+    
+    // ⚡ RADIOFREQUÊNCIA (AGULHADA E INJETÁVEL)
+    'radiofrequência microagulhada': ['morpheus8', 'potenza', 'agnis', 'scarlet rf', 'secret rf', 'sylfirm x', 'endymed intensif', 'vivace', 'genius rf', 'intracel', 'infinit rf', 'voluderm'],
+    'radiofrequência subdérmica': ['profound rf', 'facetite', 'bodytite', 'accutite', 'agnes rf', 'thermitight', 'thermirf'],
+    
+    // 🌡️ RADIOFREQUÊNCIA (NÃO INVASIVA)
+    'radiofrequência convencional': ['hertix', 'freeze', 'vênus legacy', 'accent prime', 'thermage', 'thermage flx', 'exilis ultra 360', 'trusculpt', 'nuera tight', 'forma', 'vela shape', 'vanquish me', 'tripollar', 'evoke'],
+    'radiofrequência fracionada ablacao': ['fraxx', 'wavetronic', 'sublative rf', 'emmatrix', 'venus viva'],
+    
+    // ❄️ CRIOTERAPIA
+    'criolipólise de sucção': ['coolsculpting', 'coolsculpting elite', 'clatuu alpha', 'cristal cryolipolysis', 'zeltiq', 'cooltech', 'congelamento de gordura'],
+    'criolipólise de placas': ['criodermis', 'asgard vc10', 'coolplas', 'criolipolise sem sucção'],
+    
+    // 🌊 CHOQUE E CAMPO MAGNÉTICO
+    'ondas de choque': ['thork', 'x-wave', 'zwave', 'cellutone', 'ondas acústicas para celulite', 'd-actor'],
+    'campo eletromagnético': ['emsculpt neo', 'cmslim', 'estimulação muscular', 'cooltone', 'tesla former', 'trusculpt flex', 'zeta', 'z-field'],
+    
+    // ⚡ PLASMA E OUTROS
+    'jato de plasma': ['plasma pen', 'eletrocautério estético', 'plasma fibroblast', 'plexr', 'neogen', 'plasmage', 'opus plasma', 'jett plasma'],
     'eletrolifting': ['galvanopuntura', 'tratamento de rugas com corrente'],
     'carboxiterapia': ['carbox corporal', 'carbox facial', 'infusão de co2'],
     'ozonioterapia estética': ['ozônio para gordura', 'ozônio para celulite'],
-    'hidradermabrasão': ['hydrafacial', 'aquapure', 'peeling de água'],
+    'hidradermabrasão': ['hydrafacial', 'aquapure', 'peeling de água', 'dermaclear'],
     'microdermoabrasão': ['peeling de diamante', 'peeling de cristal'],
-    'ledterapia': ['fotobiomodulação', 'máscara de led', 'luz azul acne'],
-    'endermologia': ['lpg', 'vacuoterapia', 'massageador a vácuo'],
+    'ledterapia': ['fotobiomodulação', 'máscara de led', 'luz azul acne', 'healite'],
+    'endermologia': ['lpg', 'vacuoterapia', 'massageador a vácuo', 'vela shape 3'],
     'pressoterapia': ['drenagem pneumática', 'botas de compressão'],
 
-    // --- 🔪 CIRURGIA PLÁSTICA E ALTA DEFINIÇÃO ---
-    'lipoaspiração hd': ['lipo de alta definição', 'lipo lad', 'lipo vlaser', 'lipoescultura hd'],
-    'lipoaspiração convencional': ['vibrolipo', 'hidrolipo com corte'],
-    'abdominoplastia': ['dermolipectomia', 'mini abdominoplastia'],
-    'mamoplastia de aumento': ['prótese de silicone', 'implante de mama'],
-    'mamoplastia redutora': ['redução de mama', 'mastopexia'],
-    'explante de silicone': ['remoção de prótese', 'doença do silicone'],
-    'blefaroplastia superior': ['cirurgia de pálpebras', 'olhar cansado'],
+  // --- 🔪 CIRURGIA PLÁSTICA, ALTA DEFINIÇÃO E CIRURGIAS A LASER ---
+    
+    // 🪚 CONTORNO CORPORAL E LIPOASPIRAÇÃO (CLÁSSICA E A LASER)
+    'lipoaspiração hd': ['lipo de alta definição', 'lipo lad', 'lipo vlaser', 'lipoescultura hd', 'ugraft'],
+    'lipoaspiração convencional': ['vibrolipo', 'hidrolipo com corte', 'minilipo'],
+    'lipoaspiração a laser': ['laserlipólise', 'lipo a laser', 'smartlipo', 'slimlipo', 'fotona tightsculpting', 'lipo laser'],
+    'retração de pele a plasma': ['renuvion', 'j-plasma', 'argoplasma', 'retração de pele pós lipo', 'plasma de hélio'],
+    'radiofrequência subdérmica cirúrgica': ['bodytite', 'facetite', 'necktite', 'accutite', 'lipo com radiofrequência'],
+    'abdominoplastia': ['dermolipectomia', 'mini abdominoplastia', 'abdominoplastia a laser'],
+
+    // 🍈 MAMAS
+    'mamoplastia de aumento': ['prótese de silicone', 'implante de mama', 'silicone recuperação rápida', 'r24r'],
+    'mamoplastia redutora': ['redução de mama', 'mastopexia', 'mastopexia com alça muscular', 'mastopexia a laser', 'lifting de mama sem corte'],
+    'explante de silicone': ['remoção de prótese', 'doença do silicone', 'cápsula do silicone'],
+    
+    // 👁️ OLHOS E TERÇO SUPERIOR
+    'blefaroplastia superior': ['cirurgia de pálpebras', 'olhar cansado', 'excesso de pele nos olhos'],
     'blefaroplastia inferior': ['bolsas nos olhos', 'olheira cirúrgica'],
-    'facelift': ['ritidoplastia', 'lifting facial cirúrgico'],
-    'deep plane facelift': ['lifting facial profundo', 'rejuvenescimento cirúrgico total'],
-    'brow lift': ['lifting de sobrancelha', 'castanhares'],
-    'rinoplastia': ['cirurgia de nariz', 'rinoplastia estruturada'],
-    'otoplastia': ['cirurgia de orelha de abano'],
-    'mentoplastia': ['cirurgia de queixo', 'prótese de mento'],
-    'bichectomia': ['remoção da bola de bichat', 'afinar o rosto'],
+    'blefaroplastia a laser': ['blefaro a laser', 'cirurgia de pálpebra a laser', 'corte a laser pálpebra', 'blefaroplastia sem corte', 'plexr pálpebra', 'madonna lift'],
+    'brow lift': ['lifting de sobrancelha', 'castanhares', 'brow lift a laser', 'endoscopia de sobrancelha'],
+    
+    // 🎭 FACE E PESCOÇO (LIFTING E ENDOLASER)
+    'facelift': ['ritidoplastia', 'lifting facial cirúrgico', 'minilifting'],
+    'deep plane facelift': ['lifting facial profundo', 'rejuvenescimento cirúrgico total', 'smas facelift'],
+    'endolaser facial': ['endolift', 'laser endovenoso facial', 'laser subcutâneo', 'lifting a laser', 'fio de laser', 'fotona smooth facial', 'endolight'],
+    'lipo de papada cirúrgica': ['lipoaspiração de submento', 'lipo de queixo'],
+    'lipo de papada a laser': ['endolaser de papada', 'lipo laser submento', 'endolift papada', 'emagrecimento facial a laser'],
+    'bichectomia': ['remoção da bola de bichat', 'afinar o rosto', 'bichectomia a laser'],
+    
+    // 👃 NARIZ, ORELHA E MENTO
+    'rinoplastia': ['cirurgia de nariz', 'rinoplastia estruturada', 'rinoplastia ultrassônica', 'piezo rinoplastia'],
+    'rinoplastia a laser': ['afinamento de nariz a laser', 'rinomodelação fotona', 'laser no nariz'],
+    'otoplastia': ['cirurgia de orelha de abano', 'otoplastia a laser', 'otoplastia sem corte', 'earshut'],
+    'mentoplastia': ['cirurgia de queixo', 'prótese de mento', 'avanço de mento'],
+    'lobuloplastia': ['correção de orelha rasgada', 'costurar lóbulo'],
+    
+    // 🍑 GLÚTEOS
+    'gluteoplastia': ['prótese de glúteo', 'enxerto de gordura no bumbum', 'brazilian butt lift', 'bbl cirurgia'],
+    'endolaser corporal': ['endolift glúteo', 'retração de celulite a laser', 'subcisão a laser para celulite', 'cellulaze'],
+    
+    // 🌸 CIRURGIA ÍNTIMA
     'ninfoplastia': ['labioplastia cirúrgica', 'redução de pequenos lábios'],
-    'gluteoplastia': ['prótese de glúteo', 'enxerto de gordura no bumbum'],
-    'lipo de papada cirúrgica': ['lipoaspiração de submento'],
-    'lobuloplastia': ['correção de orelha rasgada'],
+    'ninfoplastia a laser': ['cirurgia íntima a laser', 'labioplastia a laser', 'corte a laser região íntima'],
+    'rejuvenescimento íntimo a laser': ['monalisa touch', 'laser vaginal', 'fotona íntimo', 'estreitamento vaginal a laser', 'laser de co2 íntimo', 'atrófia vaginal a laser'],
+    
+    // 🩸 VASCULAR CIRÚRGICO E HIPERIDROSE
+    'cirurgia vascular a laser': ['endolaser varizes', 'evlt', 'ablação venosa a laser', 'cirurgia de varizes a laser', 'secagem de varizes a laser'],
+    'tratamento de hiperidrose a laser': ['lipoaspiração axilar a laser', 'remoção de glândulas de suor a laser', 'miradry'],
 
     // --- 💇 CAPILAR E TRICOLOGIA ---
     'transplante capilar fue': ['implante capilar sem cicatriz'],
@@ -277,84 +332,238 @@ procedimentos_pt: {
     'rosto de travesseiro': ['pillow face', 'excesso de preenchimento', 'rosto inchado de botox']
   
   },
+// ==========================================
+  // 🎯 MAPA ANATÔMICO E MICRO-SEGMENTAÇÃO (O Mapa do Tesouro)
+  // Dores, Gírias, Gordurinhas e Emagrecimento por Região
+  // ==========================================
   anatomia_pt: {
-    'face': ['face', 'rosto', 'facial', 'pele do rosto', 'contorno facial', 'harmonização facial', 'rugas na face', 'olheiras'],
-    'abdômen': ['abdômen', 'barriga', 'abdominal', 'gordura na barriga', 'flacidez abdominal', 'pós-gestação', 'definição abdominal'],
-    'glúteos': ['glúteos', 'bumbum', 'levantamento de glúteos', 'volume glúteos', 'estética glúteos', 'celulite glúteos'],
-    'coxas': ['coxas', 'coxa interna', 'coxa posterior', 'gordura nas coxas', 'celulite nas coxas', 'atrito entre pernas'],
-    'flancos': ['flancos', 'pneuzinhos', 'gordura flancos', 'gordura lateral', 'cintura'],
-    'braços': ['braços', 'braço', 'tchauzinho', 'flacidez nos braços', 'gordura no braço'],
-    'papada': ['papada', 'submento', 'gordura submentoniana', 'queixo duplo', 'contorno mandibular'],
-    'costas': ['costas', 'gordura nas costas', 'dobras nas costas', 'gordura sutiã'],
-    'região íntima': ['região íntima', 'estética íntima', 'clareamento íntimo', 'rejuvenescimento íntimo', 'flacidez íntima'],
-    'pescoço e colo': ['pescoço', 'colo', 'rugas pescoço', 'flacidez pescoço', 'manchas no colo']
+    // --- 👱‍♀️ FACE E MICRO-REGIÕES FACIAIS ---
+    'face_geral': ['face', 'rosto', 'facial', 'pele do rosto', 'contorno facial', 'harmonização facial', 'emagrecimento facial', 'rosto gordo', 'afinar o rosto', 'bichectomia'],
+    'terco_superior': ['testa', 'fronte', 'glabela', 'sobrancelha', 'têmporas', 'rosto encovado', 'têmpora funda'],
+    'regiao_periorbital': ['olhos', 'olheiras', 'pálpebras', 'pés de galinha', 'goteira lacrimal', 'bolsas embaixo dos olhos', 'olhar cansado', 'pálpebra caída'],
+    'terco_medio': ['maçã do rosto', 'malar', 'zigomático', 'bochechas', 'bochecha caída', 'bigode chinês', 'centro do rosto', 'top model look'],
+    'nariz': ['nariz', 'dorso nasal', 'ponta do nariz', 'nariz largo', 'nariz batata', 'aba nasal', 'rinomodelação', 'afinar nariz'],
+    'regiao_perioral_e_labios': ['boca', 'lábios', 'código de barras', 'arco do cupido', 'canto da boca', 'linhas de marionete', 'sorriso gengival', 'boca torta', 'lábio fino'],
+    'terco_inferior_e_mandibula': ['mandíbula', 'linha da mandíbula', 'maxilar', 'queixo', 'mento', 'bochecha de buldogue', 'jowls', 'contorno do queixo', 'queixo duplo', 'rosto quadrado', 'mandíbula marcada'],
+
+    // --- 🧣 PESCOÇO, COLO E NUCA ---
+    'papada_e_submento': ['papada', 'submento', 'gordura submentoniana', 'queixo duplo', 'papo', 'gordura embaixo do queixo', 'pescoço gordo', 'lipo de papada', 'lipo de queixo'],
+    'pescoco': ['pescoço', 'rugas no pescoço', 'colar de vênus', 'flacidez no pescoço', 'pescoço de peru', 'bandas do platisma', 'cordas no pescoço'],
+    'colo': ['colo', 'decote', 'rugas no colo', 'marcas de dormir', 'sleep lines', 'manchas no peito', 'flacidez no decote', 'rejuvenescimento do colo'],
+    'nuca_e_cervical': ['nuca', 'gordura na nuca', 'cupim', 'giba', 'giba de búfalo', 'gordura cervical', 'dorso cervical'],
+
+    // --- 👙 TRONCO, ABDÔMEN E COSTAS ---
+    'abdomen_geral': ['abdômen', 'barriga', 'abdominal', 'gordura na barriga', 'flacidez abdominal', 'pós-gestação', 'definição abdominal', 'barriga chapada', 'emagrecer barriga', 'lipo', 'abdominoplastia', 'secagem de barriga'],
+    'abdomen_inferior': ['pochete', 'pé da barriga', 'gordura infraumbilical', 'barriguinha', 'gordura pélvica', 'gordurinha embaixo do umbigo', 'barriga avental', 'dobra na barriga'],
+    'abdomen_superior': ['estômago alto', 'gordura supraumbilical', 'dobra do estômago', 'barriga estufada'],
+    'umbigo': ['umbigo', 'umbigo triste', 'flacidez no umbigo', 'umbigo caído', 'sobra de pele no umbigo', 'umbigo de lipo'],
+    'flancos_e_cintura': ['flancos', 'pneuzinhos', 'gordura flancos', 'gordura lateral', 'cintura', 'afinar cintura', 'curva da cintura', 'gordura do cós da calça', 'cintura fina'],
+    'costas_e_lombar': ['costas', 'gordura nas costas', 'dobras nas costas', 'gordura do sutiã', 'dobrinha do sutiã', 'lombar', 'gordura sacral', 'flanco traseiro', 'pneu nas costas', 'costas largas'],
+    'mamas_e_axilas': ['peito', 'seios', 'mamas', 'gordura na axila', 'gordurinha do sutiã', 'prega axilar', 'gordura pré-axilar', 'gordura no suvaco', 'ginecomastia', 'peito masculino gordo'],
+
+    // --- 🦵 MEMBROS INFERIORES E GLÚTEOS ---
+    'gluteos': ['glúteos', 'bumbum', 'nádegas', 'levantamento de glúteos', 'volume glúteos', 'estética glúteos', 'celulite glúteos', 'bumbum na nuca', 'bumbum caído', 'flacidez no bumbum', 'aumentar bumbum', 'empinar bumbum'],
+    'bananinha_glutea': ['bananinha', 'gordura embaixo do bumbum', 'dobra glútea', 'dobrinha do bumbum', 'gordura subglútea', 'bumbum duplo'],
+    'depressao_trocanterica': ['hip dips', 'buraco na lateral do quadril', 'depressão lateral', 'afundamento no bumbum', 'quadril afundado', 'buraco na perna'],
+    'coxas_geral': ['coxas', 'pernas', 'gordura nas pernas', 'emagrecer pernas', 'celulite nas pernas', 'flacidez nas pernas', 'pernas grossas', 'perna flácida'],
+    'coxa_interna': ['interno de coxa', 'coxa roçando', 'atrito entre pernas', 'gordura no meio da perna', 'flacidez na virilha', 'coxa grossa', 'assadura nas pernas', 'vão entre as pernas'],
+    'culote': ['culote', 'gordura lateral da coxa', 'quadril largo', 'cartucheiras', 'gordura no quadril', 'diminuir quadril'],
+    'joelhos': ['joelhos', 'gordura no joelho', 'gordurinha acima do joelho', 'gordura suprapatelar', 'joelho gordo', 'flacidez no joelho', 'joelho enrugado', 'rosto no joelho'],
+    'panturrilha_e_tornozelo': ['panturrilha', 'batata da perna', 'tornozelo', 'tornozelo grosso', 'cankles', 'gordura no tornozelo', 'tendão de aquiles estético', 'afinar tornozelo'],
+
+    // --- 💪 MEMBROS SUPERIORES ---
+    'bracos': ['braços', 'tchauzinho', 'flacidez nos braços', 'gordura no braço', 'braço gordo', 'emagrecer braço', 'interno do braço', 'tríceps flácido', 'braço de polenta', 'braço roliço'],
+    'maos': ['mãos', 'dorso das mãos', 'mão envelhecida', 'mão de velha', 'veias nas mãos', 'manchas nas mãos', 'rejuvenescimento das mãos', 'mão ossuda'],
+
+    // --- 🌸 REGIÃO ÍNTIMA ---
+    'regiao_intima': ['região íntima', 'estética íntima', 'clareamento íntimo', 'rejuvenescimento íntimo', 'flacidez íntima', 'virilha escura', 'manchas na virilha', 'clarear virilha'],
+    'grandes_labios': ['grandes lábios', 'lábios vaginais', 'flacidez nos grandes lábios', 'murchamento íntimo', 'preenchimento íntimo', 'lábio vaginal escuro', 'ninfoplastia'],
+    'monte_de_venus': ['monte de vênus', 'capô de fusca', 'gordura no púbis', 'gordura na região íntima', 'púbis alto', 'lipo de púbis', 'gordura pubiana'],
+
+    // --- 📉 EMAGRECIMENTO E CONTORNO CORPORAL GERAL ---
+    'emagrecimento_geral': ['emagrecimento', 'perda de peso', 'perder gordura', 'emagrecer rápido', 'redução de medidas', 'perder barriga', 'queimar gordura', 'secagem de gordura', 'lipólise', 'déficit calórico estético', 'perder medida', 'secar rápido'],
+    'tipos_de_gordura': ['gordura localizada', 'gordurinha', 'gordura resistente', 'gordura teimosa', 'gordura dura', 'gordura mole', 'gordura visceral', 'fibrose', 'caroço de gordura'],
+    'retencao_e_lipedema': ['retenção de líquido', 'corpo inchado', 'inchaço', 'edema', 'lipedema', 'gordura dolorida', 'perna pesada', 'celulite inflamatória', 'linfedema', 'drenagem linfática', 'desinchar']
   },
 // ==========================================
   // 1. INTENÇÃO DE COMPRA E PSICOLOGIA DO CONSUMIDOR (OMNI)
   // ==========================================
-intencao_compra_pt: {
+   intencao_compra_pt: {
+
     'valor_e_investimento': [
-      'preço', 'valor', 'custo', 'quanto custa', 'orçamento', 'investimento', 'tabela de preços', 
-      'promoção', 'pacote', 'custo-benefício', 'formas de pagamento', 'parcelamento', 
-      'financiamento estético', 'cupom de desconto', 'valor da sessão', 'preço médio', 
+
+      'preço', 'valor', 'custo', 'quanto custa', 'orçamento', 'investimento', 'tabela de preços',
+
+      'promoção', 'pacote', 'custo-benefício', 'formas de pagamento', 'parcelamento',
+
+      'financiamento estético', 'cupom de desconto', 'valor da sessão', 'preço médio',
+
       'estética barata', 'clínica popular', 'preço botox 2024', 'preço bioestimulador',
+
       'combo estética', 'black friday estética', 'oferta relâmpago', 'preço justo'
+
     ],
+
     'confianca_e_autoridade': [
-      'melhor clínica', 'especialista em', 'melhor médico', 'referência em', 'onde fazer', 
-      'indicação', 'avaliações', 'doutor', 'clínica de luxo', 'médico das famosas', 
-      'atendimento premium', 'CRM médico', 'clínica licenciada', 'especialista RQE', 
+
+      'melhor clínica', 'especialista em', 'melhor médico', 'referência em', 'onde fazer',
+
+      'indicação', 'avaliações', 'doutor', 'clínica de luxo', 'médico das famosas',
+
+      'atendimento premium', 'CRM médico', 'clínica licenciada', 'especialista RQE',
+
       'dermatologista SBD', 'clínica premiada', 'melhor biomédico', 'esteta de confiança',
+
       'clínica com nota máxima', 'médico renomado', 'autoridade em harmonização'
+
     ],
+
     'prova_social_e_vlog': [
-      'antes e depois', 'fotos reais', 'resultado', 'depoimentos', 'casos reais', 
-      'vlog procedimento', 'diário de recuperação', 'minha experiência com', 'resenha', 
+
+      'antes e depois', 'fotos reais', 'resultado', 'depoimentos', 'casos reais',
+
+      'vlog procedimento', 'diário de recuperação', 'minha experiência com', 'resenha',
+
       'fotos dia a dia', 'quem já fez', 'resultado imediato', 'vídeo de aplicação',
-      'relato real', 'fotos sem filtro', 'evolução tratamento', 'comprovado'
+
+      'relato real', 'fotos sem filtro', 'evolução tratamento',
     ],
-    'seguranca_e_medos': [
-      'riscos', 'perigo', 'complicações', 'efeitos colaterais', 'intercorrência', 'dói', 
-      'anestesia', 'recuperação', 'pós operatório', 'cuidados após', 'contraindicação', 
-      'erro em procedimento', 'necrose', 'cegueira preenchimento', 'granuloma', 
-      'inchaço', 'rosto deformado', 'alergia', 'rejeição', 'segurança do paciente'
+// ==========================================
+  // 🚨 GESTÃO DE CRISE E INTERCORRÊNCIAS (O MERCADO DO MEDO E REVERSÃO)
+  // ==========================================
+  complicacoes_e_intercorrencias_pt: {
+    // 🧠 VISÃO DO PROFISSIONAL (Termos Técnicos, Diagnóstico e Protocolos)
+    'isquemia_e_necrose': [
+      'oclusão vascular', 'isquemia tecidual', 'necrose incipiente', 'sinal de livedo reticular', 
+      'branqueamento após preenchimento', 'comprometimento vascular', 'obstrução arterial', 
+      'amaurose pós preenchimento', 'cegueira por ácido hialurônico', 'síndrome de nicolau'
     ],
-    'oportunidade_e_urgencia': [
-      'modelo para curso', 'modelo estética', 'vagas limitadas', 'últimos horários', 
-      'aberto aos domingos', 'atendimento 24h', 'agendar agora', 'avaliação gratuita',
-      'consulta cortesia', 'fazer hoje', 'procedimento rápido', 'lunch time procedure'
+    'reacoes_tardias_e_infeccoes': [
+      'etip', 'edema tardio intermitente e persistente', 'granuloma de corpo estranho', 
+      'nódulo inflamatório', 'biofilme', 'infecção subclínica', 'abscesso pós preenchimento', 
+      'celulite facial infecciosa', 'erisipela pós procedimento', 'rejeição de pdo'
+    ],
+    'complicacoes_toxina': [
+      'ptose palpebral', 'ptose superciliar', 'diplopia pós botox', 'assimetria de sorriso', 
+      'efeito mefisto', 'sobrancelha diabólica', 'paresia facial', 'resistência botulínica', 
+      'anticorpos neutralizantes toxina'
+    ],
+    'lesoes_e_queimaduras': [
+      'hiperpigmentação pós-inflamatória', 'pih', 'queimadura de segundo grau laser', 
+      'lesão do nervo facial', 'neuropraxia', 'dano nervoso', 'efeito tyndall', 
+      'migração de preenchedor', 'fibrose cicatricial intensa'
+    ],
+    'protocolos_de_salvamento': [
+      'protocolo de hialuronidase', 'dose alta hialuronidase', 'uso de sildenafil estetica', 
+      'câmara hiperbárica necrose', 'pulsoterapia com corticoide', 'algoritmo de oclusão', 
+      'manejo de complicações faciais'
+    ],
+    // 😭 VISÃO DO PACIENTE (Sintomas, Desespero e Linguagem Leiga)
+    'sintomas_fisicos_e_visuais': [
+      'boca torta', 'rosto deformado', 'caroço no lábio', 'bolinha dura no preenchimento', 
+      'rosto muito inchado', 'inchaço que não passa', 'mancha roxa que não sai', 
+      'pele preta após preenchimento', 'dor insuportável no rosto', 'rosto quente e vermelho', 
+      'pus no preenchimento', 'pálpebra caída', 'olho não fecha', 'sorriso torto'
+    ],
+    'medo_e_panico': [
+      'medo de necrose', 'botox deu errado', 'ácido hialurônico entupiu veia', 
+      'fiquei cega com preenchimento', 'preenchimento necrosou', 'rosto caindo', 
+      'laser manchou meu rosto', 'queimadura de laser na perna', 'buraquinho no rosto após espinha'
+    ],
+    'arrependimento_e_reversao': [
+      'como tirar ácido hialurônico', 'dissolver preenchimento', 'como reverter botox', 
+      'botox passa logo?', 'arrepender de preenchimento labial', 'tirar boca de pato', 
+      'remover fios de pdo', 'derreter ácido hialurônico', 'antídoto preenchimento'
+    ],
+    'consequencias_juridicas_e_conflito': [
+      'processar clínica de estética', 'erro médico estética', 'indenização por erro estético', 
+      'esteticista errou', 'dentista errou botox', 'advogado erro médico estética', 
+      'denunciar clínica de estética', 'vítima de harmonização facial'
     ]
   },
-
+       
   // ==========================================
   // 2. MARCAS DE INJETÁVEIS (O MAPA DAS MOLÉCULAS)
   // ==========================================
- marcas_injetaveis_pt: {
+// ==========================================
+  // 2. MARCAS DE INJETÁVEIS (O MAPA GLOBAL E K-BEAUTY)
+  // O Dossiê Absoluto de Fármacos e Dispositivos Injetáveis
+  // ==========================================
+  marcas_injetaveis_pt: {
+    
+    // 🧬 TOXINAS BOTULÍNICAS (Oligopólio e Genéricos)
     'toxinas': [
-      'Botox', 'Dysport', 'Xeomin', 'Nabota', 'Botulift', 'Prosigne', 'Botulax', 
-      'Innotox', 'Coretox', 'Jeuveau', 'Azzalure', 'Bocouture', 'LetibotulinumtoxinA',
-      'Hengli', 'Lantox', 'Relatox'
+      // Linha Americana / Europeia
+      'Botox', 'Dysport', 'Xeomin', 'Jeuveau', 'Azzalure', 'Bocouture', 'Alluzience', 
+      'Daxxify', 'Nuceiva', 'Vistabel', 'Myobloc',
+      // Linha Asiática / K-Tox / Nacionais
+      'Nabota', 'Botulift', 'Prosigne', 'Botulax', 'Innotox', 'Coretox', 'Letybo', 
+      'Neuronox', 'Meditoxin', 'Liztox', 'Rentox', 'Hutox', 'Wondertox', 'Toxta', 
+      'Metox', 'K-tox', 'Siax', 'Hengli', 'Lantox', 'Relatox', 'Zentox'
     ],
+
+    // 💧 PREENCHEDORES (Ácido Hialurônico e Não-Hialurônicos)
     'preenchedores': [
-      'Juvederm', 'Restylane', 'Rennova', 'Belotero', 'Teosyal', 'Perfectha', 
-      'Varioderm', 'Algeness', 'Yvoire', 'Stylage', 'Saypha', 'RHA Collection', 
-      'Revanesse', 'Hylaform', 'Etermis', 'Neauvia', 'Princess Filler', 'Amalian'
+      // Allergan (Juvederm)
+      'Juvederm', 'Juvederm Voluma', 'Juvederm Volbella', 'Juvederm Vollure', 'Juvederm Volux', 'Juvederm Ultra XC',
+      // Galderma (Restylane)
+      'Restylane', 'Restylane Lyft', 'Restylane Silk', 'Restylane Kysse', 'Restylane Defyne', 'Restylane Refyne', 'Restylane Contour', 'Restylane Volyme',
+      // Rennova (Nacional/Importado)
+      'Rennova', 'Rennova Fill', 'Rennova Lift', 'Rennova Deep', 'Rennova Diamond', 'Rennova Ultra Deep',
+      // Europeus e Premium
+      'Belotero', 'Belotero Balance', 'Belotero Intense', 'Belotero Volume',
+      'Teosyal', 'Teosyal RHA', 'Teosyal Redensity 2', 'Teosyal Kiss',
+      'Perfectha', 'Varioderm', 'Algeness', 'Stylage', 'Saypha', 'Revanesse', 'Hylaform', 
+      'Etermis', 'Neauvia', 'Princess Filler', 'Amalian', 'Aliaxin', 'Aquamid',
+      // Linha Sul-Coreana (K-Beauty / Mercado Cinza e Legalizado)
+      'Neuramis', 'Revolax', 'Dermalax', 'e.p.t.q.', 'Bellast', 'Chaeum', 'Tesoro', 
+      'Celosome', 'Sardenya', 'Hyafilia', 'Zishel', 'Elravie', 'Rejeunesse', 'Yvoire', 'Apriline', 'Pluryal'
     ],
+
+    // 💎 BIOESTIMULADORES E FIOS (Tracionamento e Colágeno)
     'bioestimuladores_e_fios': [
-      'Sculptra', 'Radiesse', 'Ellanse', 'Elleva', 'Diamond', 'AestheFill', 'Gana Fill', 
-      'Lenisna', 'Juvelook', 'Olidia', 'PowerFill', 'Fio Silhouette', 'Fios de PDO i-Thread',
-      'Mint Lift', 'Miracu', 'Fios de sustentação absorb'
+      // Ácido Poli-L-Láctico (PLLA)
+      'Sculptra', 'Elleva', 'AestheFill', 'Gana Fill', 'Lenisna', 'Juvelook', 'Olidia', 'PowerFill', 'Etrebelle', 'Reborn',
+      // Hidroxiapatita de Cálcio (CaHA)
+      'Radiesse', 'Radiesse Plus', 'Diamond', 'Facetem', 'Crystalys',
+      // Policaprolactona (PCL) e Híbridos
+      'Ellanse', 'HarmonyCa', 'Gouri',
+      // Colágeno Injetável
+      'Nithya', 'Linerase',
+      // Fios de Sustentação e PDO
+      'Fio Silhouette', 'Fios de PDO', 'i-Thread', 'Mint Lift', 'Miracu', 'Fios Aptos', 
+      'Fios Double Needle', 'Fios Cog', 'Fios Espiculados', 'Fios Parafuso', 'Fios Matrix', 
+      'White Rose', 'Medikoh', 'NeoGenesis', 'Croquis', 'Fios de sustentação absorb'
     ],
+
+    // ✨ BIOREMODELADORES, SKINBOOSTERS E PDRN (DNA de Salmão)
     'bioremodeladores_e_skin': [
-      'Profhilo', 'Restylane Vital', 'Volite', 'NCTF 135HA', 'Jalupro', 'Viscoderm', 
-      'RRS Hyalift', 'M-HA 10', 'Cytocare', 'H-DNA', 'Skinive', 'Karisma', 'Nucleofill'
+      // Bioremodeladores puros
+      'Profhilo', 'Profhilo Structura', 'Karisma', 'Viscoderm',
+      // Skinboosters (Hidratação Profunda)
+      'Restylane Vital', 'Restylane Vital Light', 'Volite', 'Teosyal Redensity 1', 
+      'Neauvia Hydro Deluxe', 'Aquashine',
+      // PDRN e Exossomos (Medicina Regenerativa)
+      'Rejuran', 'Rejuran Healer', 'Rejuran S', 'Rejuran I', 'Nucleofill', 'Plinest', 
+      'Lumi Eyes', 'Vitaran', 'Twac', 'Kiara Reju', 'Phillex',
+      // Mesclas Clássicas de Rejuvenescimento
+      'NCTF 135HA', 'Jalupro', 'RRS Hyalift', 'M-HA 10', 'Cytocare', 'H-DNA', 'Skinive', 'Xela Rederm'
     ],
+
+    // 🔥 ESVAZIADORES (FAT DISSOLVERS), ENZIMAS E MESOTERAPIA B2B
     'mesoterapia_e_ativos': [
-      'Lipo Enzimática', 'Lidocaína', 'Hialuronidase', 'Lipossomas de Girassol', 
-      'Desoxicolato', 'Mesohyal', 'Toskani', 'Innoaesthetics', 'Fusion Mesotherapy'
+      // Marca Oficial Esvaziadores
+      'Kybella', 'Belkyra', 'Aqualyx', 'Lipodissolve', 'Lemon Bottle', 'Lipo-Lab', 
+      'Kabelline', 'V-Line', 'Dermaheal LL', 'Cincelar Plus', 'Prostrolane Inner B',
+      // Mesclas e Laboratórios de Mesoterapia (Brasil e Global)
+      'PB Serum', 'Lipo Enzimática', 'Desoxicolato', 'Lipossomas de Girassol', 
+      'Mesohyal', 'Toskani', 'Innoaesthetics', 'Fusion Mesotherapy', 'Smart GR', 
+      'Biometil', 'PHD Estetic', 'Samana', 'Cosmobeauty Injetáveis',
+      // Gestão de Complicações
+      'Hialuronidase', 'Liporase', 'Hialozima', 'Lidocaína'
     ]
   },
-
+   },
 // ==========================================
   // 3. FABRICANTES INTERNACIONAIS (Expansão Elite)
   // ==========================================
@@ -489,6 +698,104 @@ comparacoes_estrategicas_pt: {
       'Botox atacado', 'Comprar Dysport médico', 'Distribuidora de injetáveis', 
       'Soro fisiológico 0.9%', 'Anestésico TKTX', 'Creme anestésico manipulado',
       'Hialuronidase comprar', 'Bioestimulador preço revenda'
+    ]
+
+    },
+
+  // ==========================================
+  // 🟢 NOVO: FÁRMACOS, GENÉRICOS E MANIPULADOS (In & Out)
+  // O Arsenal Médico de Preparo e Complicações
+  // ==========================================
+// ==========================================
+  // 🟢 FÁRMACOS, GENÉRICOS, MANIPULADOS E MESOTERAPIA (In & Out)
+  // O Arsenal Médico: Skincare, Nutracêuticos, Emagrecimento e Recuperação
+  // ==========================================
+  farmacos_e_manipulados_pt: {
+    
+    // 💉 ANESTÉSICOS E MANEJO DA DOR
+    'anestesicos_topicos_e_injetaveis': [
+      'lidocaína', 'tetracaína', 'benzocaína', 'tktx', 'dermomax', 'emla',
+      'pomada anestésica manipulada', 'anestésico para microagulhamento', 
+      'prilocaína', 'ropivacaína', 'bupivacaína', 'mepivacaína', 
+      'anestesia odontológica para preenchimento', 'creme anestésico potente', 'pumice anestésico'
+    ],
+
+    // 🛡️ PROFILAXIA, ANTIBIÓTICOS E ANTIEQUIMOSES (Roxos)
+    'profilaxia_e_prevencao': [
+      'aciclovir', 'valaciclovir', 'prevenção de herpes labial', 'profilaxia pós peeling',
+      'arnica montana', 'vitamina k', 'prevenção de hematomas', 'bromelina', 'heparina sódica',
+      'cefalexina', 'amoxicilina', 'azitromicina', 'pomada antibiótica', 'nebacetin', 
+      'mupirocina', 'gel para roxos', 'hirudoid', 'thrombocid'
+    ],
+
+    // 🩹 REPARAÇÃO DE BARREIRA E CICATRIZAÇÃO PÓS-PROCEDIMENTO
+    'pos_procedimento_cicatrizacao': [
+      'dexpantenol', 'bepantol', 'cicaplast', 'reparador de barreira cutânea', 
+      'creme calmante pós laser', 'epidrat calm', 'profuse nutrel', 'cicalfate', 
+      'kelo-cote', 'stratamed', 'dersani', 'óleo de girassol ozonizado', 
+      'pomada cicatrizante', 'adesivo hidrocoloide', 'tegaderm', 'micropore cirúrgico',
+      'polissulfato de mucopolissacarídeo', 'creme com pantenol'
+    ],
+
+    // 🛑 ANTI-INFLAMATÓRIOS E CORTICOIDES (Orais e Tópicos)
+    'anti_inflamatorios_e_corticoides': [
+      'dexametasona', 'prednisona', 'corticoide para inchaço', 'anti-inflamatório pós cirúrgico', 
+      'ibuprofeno estética', 'betametasona', 'triancinolona injetável', 'corticoide para queloide', 
+      'desonida', 'hidrocortisona', 'nimesulida', 'celecoxibe', 'cetoprofeno'
+    ],
+
+    // ☁️ DESPIGMENTANTES, ÁCIDOS E MANEJO DE MELASMA
+    'despigmentantes_e_melasma': [
+      'ácido tranexâmico oral', 'ácido tranexâmico tópico', 'cisteamina', 'cysteamine',
+      'hidroquinona manipulada', 'arbutin', 'alfa arbutin', 'ácido kójico', 'ácido fítico',
+      'fórmula tríplice', 'fórmula de kligman', 'peeling de margarida', 'ácido azeilaico', 
+      'vitamina c tópica alta concentração', 'niacinamida', 'thiamidol', 'ácido mandélico', 
+      'ácido glicólico', 'ácido retinóico', 'tretinoína', 'vitanol a', 'vitacid', 
+      'suavicid', 'hormoskin', 'blancy', 'klasssis', 'pigmentclar'
+    ],
+
+    // 💊 NUTRACÊUTICOS, IN & OUT E FOTOPROTEÇÃO ORAL
+    'nutraceuticos_e_fotoprotecao_oral': [
+      'polypodium leucotomos', 'picnogenol', 'filtro solar em cápsula', 'oli-ola', 
+      'exsynutriment', 'bio-arct', 'fosfolipídeos de caviar', 'fc oral', 'luteína', 
+      'astaxantina', 'glycoxil', 'extrato de romã', 'pomegranate', 'fotoproteção oral'
+    ],
+
+    // ✨ SUPLEMENTAÇÃO ANTI-AGING E NUTRICOSMÉTICOS
+    'suplementacao_preventiva': [
+      'verisol', 'peptídeos bioativos de colágeno', 'glutationa', 'vitamina c lipossomal', 
+      'coenzima q10', 'resveratrol', 'silício orgânico', 'nutricolin', 'biotina', 
+      'ácido hialurônico oral', 'pantogar', 'pill food', 'pqq', 'nmn', 'nad+', 'siliciu max'
+    ],
+
+    // 🌋 MANEJO DE ACNE E OLEOSIDADE (Tópicos e Hormonais)
+    'tratamento_acne_hormonal': [
+      'espironolactona', 'roacutan', 'isotretinoína', 'antibiótico para acne', 
+      'ácido azelaico manipulado', 'espirolactona para estética', 'peróxido de benzoíla', 
+      'adapaleno', 'epiduo', 'clindamicina', 'sabonete de ácido salicílico', 
+      'roacutan manipulado', 'ciproterona', 'flutamida'
+    ],
+
+    // 💧 ATIVOS INJETÁVEIS (Mesoterapia, Intradermoterapia e Esvaziadores)
+    'ativos_injetaveis_mesoterapia': [
+      'desoxicolato de sódio', 'l-carnitina injetável', 'cafeína injetável', 'crisina', 
+      'meliloto', 'rutina', 'silício orgânico injetável', 'dmae injetável', 'enzimas lipolíticas', 
+      'vitamina c injetável', 'mescla para flacidez', 'mescla para gordura localizada', 
+      'intradermoterapia ativos', 'enzima de papada', 'esvaziadores de gordura', 'lipolíticos'
+    ],
+
+    // 💇 TERAPIA CAPILAR FARMACOLÓGICA
+    'terapia_capilar_farmacos': [
+      'minoxidil oral', 'minoxidil tópico', 'finasterida', 'dutasterida', 'latanoprosta', 
+      'bimatoprosta', 'fatores de crescimento capilar', 'igf capilar', 'vegf', 
+      'terapia capilar manipulada', 'shampoo de cetoconazol', 'loção capilar manipulada'
+    ],
+
+    // ⚖️ GERENCIAMENTO DE PESO E METABOLISMO (Impacto Estético)
+    'emagrecimento_e_metabolismo': [
+      'ozempic para emagrecer', 'wegovy', 'saxenda', 'liraglutida', 'semaglutida', 
+      'mounjaro', 'tirzepatida', 'morosil', 'orlistat', 'bupropiona para emagrecer', 
+      'naltrexona', 'caneta para emagrecer', 'inibidor de apetite', 'faseolamina', 'cactinea'
     ]
   },
   // ==========================================
