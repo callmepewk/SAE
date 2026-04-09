@@ -5,7 +5,7 @@ const HttpsProxyAgent = require('https-proxy-agent');
 const UserAgent = require('user-agents');
 
 // --- ☁️ CONFIGURAÇÃO MONGODB ---
-const MONGO_URI = process.env.MONGODB_URI;
+const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://aidoctorbr_db_user:QbtfIw3En6CH7Dre@sae.ecjyjeg.mongodb.net/?appName=SAE';
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log("✅ [MOTOR AUTÔNOMO] CONECTADO AO MONGODB"))
