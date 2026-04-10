@@ -33,6 +33,11 @@ const autocompleteDatabase = [
   { term: 'Flacidez Facial', cat: 'Tratamento' }, { term: 'Gordura Localizada', cat: 'Tratamento' }
 ];
 
+// --- FALLBACK PARA QUANDO O RENDER ESTIVER DORMINDO (Melhor UX) ---
+const fallbackRadarData = [
+  { termo_chave: 'Sincronizando...', mercado: 'Iniciando Motor', evolucao: 0, status_tendencia: 'AGUARDANDO OMNI' }
+];
+
 // --- DADOS DO MOTOR FIXO (Métricas Reais RABI OMNI) ---
 const performanceData = [
   { metric: 'CPC Médio', before: 20.00, after: 5.00, textB: 'R$ 8 a R$ 20', textA: 'R$ 1.5 a R$ 5', impact: '-70%', color: 'text-green-400' },
@@ -50,7 +55,6 @@ const taxonomyData = [
 ];
 
 const mockChartData = [{ v: 20 }, { v: 45 }, { v: 35 }, { v: 80 }, { v: 65 }, { v: 100 }];
-const COLORS = ['#06b6d4', '#4f46e5', '#ec4899', '#8b5cf6', '#10b981'];
 
 // --- SISTEMA DE CONTROLE DE USO DIÁRIO ---
 const DAILY_LIMIT = 100; // CTO GOD MODE
@@ -452,11 +456,17 @@ export default function App() {
       try {
         const response = await fetch('https://sae-9wqa.onrender.com/api/radar');
         const fetchedData = await response.json();
-        // 🟢 FIX: O backend agora manda { data: [...], meta: {...} }
-        setLiveData(fetchedData.data || []);
+        
+        // 🟢 FIX: Validação robusta de Array. Fallback se API falhar silenciosamente.
+        if (fetchedData && Array.isArray(fetchedData.data)) {
+          setLiveData(fetchedData.data);
+        } else {
+          setLiveData(fallbackRadarData);
+        }
         setIsLoading(false);
       } catch (error) {
         console.error("Alerta de conexão com o Motor:", error);
+        setLiveData(fallbackRadarData);
         setIsLoading(false);
       }
     };
@@ -481,7 +491,7 @@ export default function App() {
     try {
       const keywordTarget = query || filters.join(' + ') || 'Análise de Mercado Ampla';
       
-      // 🟢 FIX: Post real na API do motor (Removemos o mockDynamicSchema)
+      // 🟢 FIX: Chamada real. Se a API estiver offline, vai cair no Catch e gerar fallback para não travar a UX.
       const response = await fetch('https://sae-9wqa.onrender.com/api/dossie', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -492,9 +502,7 @@ export default function App() {
         })
       });
 
-      if (!response.ok) {
-        throw new Error(`Erro na API: Status ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Status HTTP: ${response.status}`);
 
       const realDynamicSchema = await response.json();
 
@@ -503,8 +511,9 @@ export default function App() {
       setReportData(realDynamicSchema);
 
     } catch (error) {
-      console.error("Falha RABI:", error);
-      alert("Falha ao comunicar com o Motor SAE. Verifique o console.");
+      console.error("Falha RABI (Servidor Indisponível/Erro):", error);
+      alert("⚠️ O Motor SAE (Backend) não respondeu a tempo ou está offline. \nCertifique-se de que o Render fez o deploy da última versão do motor.js!");
+      setIsSearching(false); // Libera o botão de busca
     } finally {
       setIsSearching(false);
     }
@@ -577,13 +586,14 @@ export default function App() {
                     if (evolucao > 100) { StatusIcon = Flame; statusColor = "text-red-400 bg-red-500/20 border-red-500/30"; statusText = "EXPLOSÃO (TRENDING)"; }
                     else if (evolucao > 20) { StatusIcon = ArrowUpRight; statusColor = "text-green-400 bg-green-500/20 border-green-500/30"; statusText = "ASCENSÃO SÓLIDA"; }
                     else if (evolucao < 0) { StatusIcon = Snowflake; statusColor = "text-cyan-400 bg-cyan-500/20 border-cyan-500/30"; statusText = "RESFRIAMENTO (QUEDA)"; }
+                    else if (evolucao === 0) { StatusIcon = Loader2; statusColor = "text-gray-400 bg-gray-500/20 border-gray-500/30 animate-pulse"; statusText = "AGUARDANDO OMNI"; }
                     else { StatusIcon = AlertCircle; statusColor = "text-yellow-400 bg-yellow-500/20 border-yellow-500/30"; statusText = "ALTO RISCO DE SATURAÇÃO"; }
 
                     return (
                       <tr key={i} className="hover:bg-white/[0.02] transition-colors group">
                         <td className="p-5 font-bold text-lg text-gray-200 group-hover:text-cyan-400">{item.termo_chave}</td>
                         <td className="p-5 text-gray-400">{item.mercado}</td>
-                        <td className={`p-5 font-mono font-black text-lg ${evolucao > 0 ? 'text-green-400' : 'text-red-400'}`}>{evolucao > 0 ? '+' : ''}{evolucao.toFixed(2)}%</td>
+                        <td className={`p-5 font-mono font-black text-lg ${evolucao > 0 ? 'text-green-400' : evolucao < 0 ? 'text-red-400' : 'text-gray-400'}`}>{evolucao > 0 ? '+' : ''}{evolucao.toFixed(2)}%</td>
                         <td className="p-5">
                           <span className={`text-xs font-black uppercase px-3 py-1.5 rounded flex items-center w-max border ${statusColor}`}>
                             <StatusIcon size={14} className="mr-2" /> {statusText}
@@ -622,7 +632,7 @@ export default function App() {
               <h2 className="text-4xl font-black tracking-tight">Projeção de Crescimento</h2>
             </div>
             {/* 🟢 FIX: O componente agora recebe os dados ou usa o mock como fallback */}
-            <ChartWidget data={reportData?.projections?.chartData || mockChartData} />
+            <ChartWidget data={mockChartData} />
           </div>
         </section>
 
