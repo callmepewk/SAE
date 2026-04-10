@@ -7,16 +7,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// Rota Raiz (Health Check)
-app.get('/', (req, res) => {
-    res.json({ 
-        status: "🟢 Motor SAE OMNI Online e Operante", 
-        version: "1.0.0",
-        message: "Acesso direto bloqueado. Utilize os endpoints da API.",
-        endpoints: ["GET /api/radar", "POST /api/dossie"]
-    });
-});
-
 // ==========================================
 // 📚 O DICIONÁRIO GLOBAL DO RABI (Escala Planetária - V33)
 // ==========================================
@@ -818,7 +808,7 @@ comparacoes_estrategicas_pt: {
 
 // ==========================================
 // 🧠 SAE CORE: SEARCH-AUTOMATION ENGINE
-// Processamento Dinâmico em Memória
+// Processamento Dinâmico em Memória BLINDADO
 // ==========================================
 const keywordsDB = [];
 
@@ -829,13 +819,12 @@ const hashString = (str) => {
     return Math.abs(hash);
 };
 
-// Flatten & Index do dicionário
 console.log("⚙️ Compilando Dicionário OMNI no Motor...");
 for (const [categoryKey, categoryData] of Object.entries(KEYWORDS)) {
     const categoryName = categoryKey.split('_')[0].toUpperCase();
     const languageCode = categoryKey.split('_')[1];
     
-    let conceptIndex = 0; // Rastreador de conceito paralelo
+    let conceptIndex = 0; 
 
     for (const [mainTerm, synonyms] of Object.entries(categoryData)) {
         const seed = hashString(mainTerm);
@@ -843,8 +832,13 @@ for (const [categoryKey, categoryData] of Object.entries(KEYWORDS)) {
         const cpc = (seed % 40) + 2;
         const ticket = 500 + (seed % 6000);
 
-        // 🟢 FIX DE BLINDAGEM: Garante que os sinônimos sempre sejam um Array, mesmo se houver erro de digitação na base
-        const safeSynonyms = Array.isArray(synonyms) ? synonyms : (typeof synonyms === 'string' ? [synonyms] : []);
+        // 🟢 BLINDAGEM ANTI-CRASH: Força qualquer coisa a virar uma Array limpa
+        let safeSynonyms = [];
+        if (Array.isArray(synonyms)) {
+            safeSynonyms = synonyms;
+        } else if (typeof synonyms === 'string') {
+            safeSynonyms = [synonyms];
+        }
 
         keywordsDB.push({
             term: String(mainTerm).toLowerCase(),
@@ -860,27 +854,20 @@ for (const [categoryKey, categoryData] of Object.entries(KEYWORDS)) {
         conceptIndex++; 
     }
 }
-console.log(`✅ Base pronta: ${keywordsDB.length} entidades macro mapeadas em 8 idiomas.`);
+console.log(`✅ Base pronta: ${keywordsDB.length} entidades macro mapeadas (BLINDADA CONTRA ERROS).`);
 
 // Algoritmo de Busca Fuzzy OMNI
 const saeSearch = (query, filters) => {
     const q = query.toLowerCase().trim();
-    
-    // 1. Busca exata no termo principal
     let bestMatch = keywordsDB.find(k => k.term === q);
     
-    // 2. Busca exata nos sinônimos
     if (!bestMatch) {
         bestMatch = keywordsDB.find(k => k.synonyms.includes(q));
     }
-
-    // 3. Busca Parcial (Fuzzy)
     if (!bestMatch) {
         const matches = keywordsDB.filter(k => k.term.includes(q) || k.synonyms.some(s => s.includes(q)));
         if (matches.length > 0) bestMatch = matches[0]; 
     }
-
-    // 4. Fallback Dinâmico Computado (Se o usuário buscar algo totalmente fora)
     if (!bestMatch) {
         const seed = hashString(q);
         bestMatch = {
@@ -889,285 +876,174 @@ const saeSearch = (query, filters) => {
             category: filters.length > 0 ? filters[0] : "Inteligência Tática",
             volume: 5000 + (seed % 50000),
             cpc: (seed % 20) + 3,
-            ticket: 800 + (seed % 3000)
+            ticket: 800 + (seed % 3000),
+            language: 'pt',
+            conceptIndex: 9999 // Fallback concept
         };
     }
-
     return bestMatch;
 };
-// 🟢 NOVA FUNÇÃO: Busca as traduções mapeadas pelo conceptIndex
-const getOmniTranslations = (matchData) => {
-    if (!matchData || matchData.conceptIndex === undefined) return null;
 
-    // Busca no DB todos os termos da mesma categoria e mesmo índice, mas de idiomas diferentes
+// 🟢 Busca Global de Traduções OMNI
+const getOmniTranslations = (matchData) => {
+    if (!matchData || matchData.conceptIndex === 9999) return null;
+
     const translations = keywordsDB.filter(k => 
         k.category === matchData.category && 
         k.conceptIndex === matchData.conceptIndex &&
         k.language !== matchData.language
     );
 
-    // Monta um objeto limpo ex: { en: "botulinum toxin", es: "toxina botulínica", ... }
     const result = {};
     translations.forEach(t => {
-        result[t.language] = t.term.replace(/\b\w/g, l => l.toUpperCase()); // Formata bonitinho
+        result[t.language] = t.term.replace(/\b\w/g, l => l.toUpperCase());
     });
 
     return result;
 };
-// Seeds Temporais
+
 const getDailySeed = () => Math.floor(Date.now() / (1000 * 60 * 60 * 24));
 const getWeeklySeed = () => Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7));
 
-const fetch = require('node-fetch');
+// ==========================================
+// 🛡️ ROTA RAIZ (Health Check)
+// ==========================================
+app.get('/', (req, res) => {
+    res.json({ 
+        status: "🟢 Motor SAE OMNI Online e Blindado", 
+        message: "Acesso direto bloqueado. Utilize os endpoints da API (/api/radar ou /api/dossie)."
+    });
+});
 
 // ==========================================
-// 🌍 FUNÇÕES EXTERNAS GRATUITAS (REAL SEARCH)
+// 📡 ROTA 1: LIVE RADAR 3.0
 // ==========================================
-async function fetchGoogleSuggestions(query){
-    try{
-        const url = `https://suggestqueries.google.com/complete/search?client=firefox&q=${encodeURIComponent(query)}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        return data[1] || [];
-    }catch(e){
-        return [];
-    }
-}
+app.get('/api/radar', (req, res) => {
+    const seed = getDailySeed();
+    const activeMonitoring = keywordsDB.filter(k => k.language === 'pt').slice(0, 15); 
 
-async function fetchBingSuggestions(query){
-    try{
-        const url = `https://api.bing.com/osjson.aspx?query=${encodeURIComponent(query)}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        return data[1] || [];
-    }catch(e){
-        return [];
-    }
-}
+    let radarData = activeMonitoring.map((item, index) => {
+        const volatilidade = (Math.sin(seed + index + hashString(item.term)) * 150); 
+        const evolucao = parseFloat(volatilidade.toFixed(2));
+        
+        let status_tendencia = 'PROCESSANDO';
+        if (evolucao > 80) status_tendencia = 'EXPLOSÃO (TRENDING)';
+        else if (evolucao > 15) status_tendencia = 'ASCENSÃO SÓLIDA';
+        else if (evolucao < 0) status_tendencia = 'RESFRIAMENTO (QUEDA)';
+        else status_tendencia = 'ALTO RISCO DE SATURAÇÃO';
 
-async function fetchYoutubeSuggestions(query){
-    try{
-        const url = `https://suggestqueries.google.com/complete/search?client=youtube&q=${encodeURIComponent(query)}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        return data[1] || [];
-    }catch(e){
-        return [];
-    }
-}
+        const displayTerm = item.term.replace(/\b\w/g, l => l.toUpperCase());
 
-// ==========================================
-// ⚡ CACHE EFÊMERO + ESCALA
-// ==========================================
-const searchCache = new Map();
-const dossieCache = new Map();
-const requestLimiter = new Map();
-
-const CACHE_TTL = 24 * 60 * 60 * 1000;
-const RATE_LIMIT = 60; // req/min por IP
-
-function rateLimit(ip){
-    const now = Date.now();
-
-    if(!requestLimiter.has(ip)){
-        requestLimiter.set(ip,{ count:1, time:now });
-        return false;
-    }
-
-    const data = requestLimiter.get(ip);
-
-    if(now - data.time > 60000){
-        requestLimiter.set(ip,{ count:1, time:now });
-        return false;
-    }
-
-    data.count++;
-
-    if(data.count > RATE_LIMIT){
-        return true;
-    }
-
-    return false;
-}
-
-// limpeza automática diária
-setInterval(() => {
-    const now = Date.now();
-
-    for(const [k,v] of searchCache.entries()){
-        if(now - v.timestamp > CACHE_TTL) searchCache.delete(k);
-    }
-
-    for(const [k,v] of dossieCache.entries()){
-        if(now - v.timestamp > CACHE_TTL) dossieCache.delete(k);
-    }
-
-    console.log("🧹 cache limpo");
-}, 60 * 60 * 1000);
-
-
-// pool rotativo
-function getRotatingSources(query){
-    return [
-        () => fetchGoogleSuggestions(query),
-        () => fetchBingSuggestions(query),
-        () => fetchYoutubeSuggestions(query)
-    ].sort(() => 0.5 - Math.random()).slice(0,2);
-}
-
-// ==========================================
-// 🔎 ROTA: SEARCH ASSISTIDO (REAL)
-// ==========================================
-app.get('/api/search', async (req, res) => {
-
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-    if(rateLimit(ip)){
-        return res.status(429).json({ error:"too many requests" });
-    }
-
-    const query = (req.query.q || '').toLowerCase().trim();
-    if (!query || query.length < 2) return res.json([]);
-
-    if(searchCache.has(query)){
-        return res.json(searchCache.get(query).data);
-    }
-
-    const internal = keywordsDB
-        .filter(k => 
-            k.term.includes(query) || 
-            k.synonyms.some(s => s.includes(query))
-        )
-        .map(k => k.term);
-
-    const sources = getRotatingSources(query);
-    const external = await Promise.all(sources.map(fn => fn()));
-
-    const merged = [...new Set([
-        ...internal,
-        ...external.flat()
-    ])];
-
-    const results = merged.slice(0,10).map(term => {
-        const seed = hashString(term);
-        return {
-            term: term.replace(/\b\w/g, l => l.toUpperCase()),
-            category: "Market Intelligence",
-            volume: 1000 + (seed % 50000)
+        return { 
+            termo_chave: displayTerm, 
+            mercado: item.category,
+            evolucao, 
+            status_tendencia 
         };
     });
 
-    searchCache.set(query,{
-        data: results,
-        timestamp: Date.now()
+    radarData.sort((a, b) => b.evolucao - a.evolucao);
+
+    // DEVOLVE NO FORMATO EXATO QUE O FRONTEND ESPERA
+    res.json({
+        data: radarData,
+        meta: { current_page: 1, has_more: false }
     });
-
-    res.json(results);
 });
+
 // ==========================================
-// 🎯 ROTA 2: DOSSIÊ MCKINSEY (REAL ENGINE)
+// 🎯 ROTA 2: DOSSIÊ MCKINSEY
 // ==========================================
-app.post('/api/dossie', async (req, res) => {
-
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-
-    if(rateLimit(ip)){
-        return res.status(429).json({ error:"too many requests" });
-    }
-
+app.post('/api/dossie', (req, res) => {
     const { keyword, filters, region } = req.body;
-    const searchTarget = keyword || (filters && filters.length > 0 ? filters.join(' ') : '');
-
-    if(dossieCache.has(searchTarget)){
-        return res.json(dossieCache.get(searchTarget).data);
-    }
-
     const weekSeed = getWeeklySeed();
+    
+    const searchTarget = keyword || (filters && filters.length > 0 ? filters.join(' ') : 'Análise Geral');
     const saeData = saeSearch(searchTarget, filters || []);
     const globalTranslations = getOmniTranslations(saeData);
-
-    const sources = getRotatingSources(searchTarget);
-    const external = await Promise.all(sources.map(fn => fn()));
-
-    const externalKeywords = [...new Set(external.flat())];
-
+    
     const baseVolume = saeData.volume;
     const baseCpc = saeData.cpc;
     const baseTicket = saeData.ticket;
     const displayTerm = saeData.term.toUpperCase();
+    
+    const potRevenue = (baseVolume * 0.02 * baseTicket); 
     const hashData = hashString(searchTarget);
 
-    const chartData = {
-        labels:["S1","S2","S3","S4","S5","S6"],
-        values:Array.from({length:6}).map((_,i)=>
-            Math.floor(
-                (baseVolume/1000)*
-                Math.abs(Math.sin(weekSeed+i+hashData))
-            )
-        )
-    };
-
-    const keywordsAnalysis = externalKeywords.slice(0,6).map(kw=>{
-        const seed = hashString(kw);
-        const volume = Math.floor(baseVolume*(0.2+(seed%60)/100));
-        const difficulty = Math.floor((baseCpc*2)+(seed%40));
-        const conversion = ((baseTicket/baseCpc)/100).toFixed(2);
-
-        return {
-            keyword: kw.toUpperCase(),
-            volume,
-            competition: difficulty>70?"Alta":difficulty>40?"Média":"Baixa",
-            difficulty:`${difficulty}/100`,
-            conversion_estimate:`${conversion}%`,
-            score:`${Math.min(100,Math.floor((volume/difficulty)*10))}/100`
-        };
-    });
-
-    const best = keywordsAnalysis.sort((a,b)=>parseInt(b.score)-parseInt(a.score))[0];
+    const chartData = Array.from({ length: 6 }).map((_, i) => ({
+        v: Math.floor(10 + Math.abs(Math.sin(weekSeed + i + hashData) * 90))
+    }));
 
     const responseSchema = {
         keyword: displayTerm,
-        region: region || "Brasil",
+        region: region || "Brasil (Nacional)",
         category: saeData.category,
         global_terms: globalTranslations,
+        
+        marketScore: {
+            overall_score: `${Math.floor(65 + (Math.abs(Math.sin(hashData)) * 34))}/100`, 
+            market_average: "72/100",
+            best_keyword: (saeData.synonyms && saeData.synonyms[0]) ? saeData.synonyms[0].toUpperCase() : displayTerm,
+            total_potential: `R$ ${(potRevenue / 1000000).toFixed(1)}M/mês`
+        },
+        
+        saasBenchmarks: {
+            conversion: "2.8%", visitor_to_lead: "5.5%", lead_to_customer: "14.2%",
+            trial_to_paid: "22.5%", churn: "3.8%", cac: "R$ 450,00"
+        },
+        
+        esteticaBenchmarks: {
+            lead_to_client: `${(8 + (Math.abs(Math.cos(hashData)) * 10)).toFixed(1)}%`, 
+            ticket_medio: `R$ ${baseTicket.toLocaleString('pt-BR')}`, 
+            cac: `R$ ${Math.floor(baseCpc * 8.5)},00`, 
+            roi_ads: `${Math.floor(200 + (Math.abs(Math.sin(hashData)) * 400))}%`, 
+            retorno_clientes: "65%", 
+            whatsapp_conversion: "19.5%"
+        },
+        
+        keywordsAnalysis: [
+            { keyword: `${displayTerm} Valor`, volume: Math.floor(baseVolume * 0.8), competition: "Alta", difficulty: "78/100", conversion_estimate: "3.5%", score: "82/100" },
+            { keyword: `${displayTerm} Antes e Depois`, volume: Math.floor(baseVolume * 1.5), competition: "Extrema", difficulty: "95/100", conversion_estimate: "1.2%", score: "45/100" },
+            { keyword: `${displayTerm} Riscos`, volume: Math.floor(baseVolume * 0.4), competition: "Média", difficulty: "55/100", conversion_estimate: "8.2%", score: "94/100" }
+        ],
 
-        marketScore:{
-            overall_score:`${Math.floor((baseVolume/1000)+(baseTicket/200))}/100`,
-            market_average:`${Math.floor(baseVolume/1200)}/100`,
-            best_keyword: best?best.keyword:displayTerm,
-            total_potential:`R$ ${((baseVolume*0.02*baseTicket)/1000000).toFixed(2)}M/mês`
+        narrative: {
+            status: "SÍNTESE OMNI (SAE)",
+            context: `Motor SAE identificou ${baseVolume.toLocaleString('pt-BR')} buscas para "${displayTerm}". Tração concentrada no topo de funil da categoria ${saeData.category}.`,
+            analysis: `O CAC projetado de R$ ${Math.floor(baseCpc * 8.5)} frente a um ticket de R$ ${baseTicket.toLocaleString('pt-BR')} apresenta margem líquida excelente.`,
+            interpretation: "Cenário de oportunidade confirmada. A ausência de diferenciação técnica dos concorrentes locais permite ancoragem de preço.",
+            recommendation: `Implementar modelo de pacotes focados em ${displayTerm} para diluir o CAC.`,
+            risk: "Custo por clique (CPC) em tendência de alta nas próximas semanas."
+        },
+        
+        comparison: [
+            { metric: 'Volume Mensal Est.', br: baseVolume.toLocaleString('pt-BR'), global: (baseVolume * 14).toLocaleString('pt-BR'), delta: '+14% BR' },
+            { metric: 'Taxa de Conversão (Ads)', br: '1.5%', global: '2.8%', delta: '-1.3% BR' },
+            { metric: 'Ticket Médio (USD)', br: `$ ${(baseTicket / 5).toFixed(0)}`, global: '$ 650', delta: 'Oportunidade' }
+        ],
+
+        projections: {
+            m3: `Aumento de 15% na retenção via cross-sell da categoria ${saeData.category}.`,
+            m6: "Necessidade de atualização de protocolo para manter o LTV elevado.",
+            trends: [`Associação Híbrida de ${displayTerm}`, "Protocolos Express", "Alta Definição"],
+            chartData: chartData 
         },
 
-        saasBenchmarks:{
-            conversion:`${(baseTicket/baseVolume*100).toFixed(2)}%`,
-            visitor_to_lead:`${(baseCpc/baseTicket*100).toFixed(2)}%`,
-            lead_to_customer:`${((baseTicket/baseCpc)/10).toFixed(2)}%`,
-            trial_to_paid:`${(baseVolume/baseTicket).toFixed(2)}%`,
-            churn:`${(baseCpc/baseVolume*100).toFixed(2)}%`,
-            cac:`R$ ${(baseCpc*10).toFixed(2)}`
-        },
-
-        esteticaBenchmarks:{
-            lead_to_client:`${(baseTicket/100).toFixed(2)}%`,
-            ticket_medio:`R$ ${baseTicket.toLocaleString('pt-BR')}`,
-            cac:`R$ ${(baseCpc*8).toFixed(2)}`,
-            roi_ads:`${Math.floor((baseTicket/baseCpc)*100)}%`,
-            retorno_clientes:`${Math.floor((baseVolume/baseTicket))}%`,
-            whatsapp_conversion:`${(baseTicket/baseVolume*200).toFixed(2)}%`
-        },
-
-        keywordsAnalysis,
-
-        projections:{
-            trends: keywordsAnalysis.slice(0,3).map(k=>k.keyword),
-            chartData
-        }
+        topProcedures: [
+            { name: `Protocolo ${displayTerm} 3D`, volume: Math.floor(baseVolume * 0.3).toString(), ticket: (baseTicket * 1.5).toLocaleString('pt-BR'), interpretation: "Venda cruzada." },
+            { name: "Manutenção Preventiva", volume: Math.floor(baseVolume * 0.15).toString(), ticket: (baseTicket * 0.8).toLocaleString('pt-BR'), interpretation: "Aumento de LTV." }
+        ],
+        topLasers: [
+            { type: "HIFU", name: "Ultraformer MPT", maker: "Classys", origin: "Coreia", cost: "R$ 400k", roi: "6 Meses", apps: "Lifting" },
+            { type: "Ablativo", name: "CO2 Fracionado", maker: "Diversos", origin: "Global", cost: "R$ 150k", roi: "3 Meses", apps: "Resurfacing" }
+        ]
     };
 
-    dossieCache.set(searchTarget,{
-        data: responseSchema,
-        timestamp: Date.now()
-    });
+    setTimeout(() => {
+        res.json(responseSchema);
+    }, 1000); 
+});
 
-    res.json(responseSchema);
+app.listen(PORT, () => {
+    console.log(`🚀 Motor SAE OMNI ONLINE na porta ${PORT}`);
 });
